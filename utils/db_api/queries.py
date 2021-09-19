@@ -39,12 +39,11 @@ def get_user_by_id(user_id: int) -> User:
         return session.query(User).filter_by(id=user_id).one()
 
 
-def get_quotes_by_tags(user_id: int, tag_name_list: list[str]) -> list[Union[None, Quote]]:
+def get_quotes_by_tags(user_id: int, tags: list[str]) -> list[Union[None, Quote]]:
     with Session(engine) as session:
-        if tag_name_list:
-            tags = session.query(Tag).filter(Tag.name.in_(tag_name_list)).all()
+        if tags:
             quotes = session.query(Quote).filter(Quote.user_id == user_id)
-            return [quote for quote in quotes if list(quote.tag).sort() == tags.sort()]
+            return [quote for quote in quotes if sorted([tag.name for tag in quote.tag]) == sorted(tags)]
 
         return list()
 

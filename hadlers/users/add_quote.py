@@ -35,7 +35,7 @@ async def author_quote(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=OrderQuote.waiting_for_quote_tags)
 async def tags_quote(message: types.Message, state: FSMContext):
-    await state.update_data(tags=[Tag(name=tag) for tag in message.text.split()])
+    await state.update_data(tag=[Tag(name=tag) for tag in message.text.split()])
     data = await state.get_data()
     add_quote_in_db(message.from_user.id, **data)
     await state.finish()

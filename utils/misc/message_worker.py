@@ -12,4 +12,4 @@ def message_destructor(message: str) -> dict:
 
 
 def message_constructor(text: str, author: str) -> str:
-    return text + u"\u061C" + author
+    return text + "\n" + u"\u061C" + author
