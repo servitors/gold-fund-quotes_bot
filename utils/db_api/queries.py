@@ -28,9 +28,9 @@ def add_quote_in_db(user_id: int, **kwargs) -> None:
         session.commit()
 
 
-def add_tag_in_db(tag:str) -> None:
+def add_tag_in_db(name:str, user_id: int) -> None:
     with Session(engine) as session:
-        session.add(Tag(tag=tag))
+        session.add(Tag(name=name, user_id=user_id))
         session.commit()
 
 
@@ -39,11 +39,12 @@ def get_user_by_id(user_id: int) -> User:
         return session.query(User).filter_by(id=user_id).one()
 
 
-def get_quotes_by_tags(user_id: int, tags: list[str]) -> list[Union[None, Quote]]:
+def get_quotes_by_tags(user_id: int, tag_name_list: list[str]) -> list[Union[None, Quote]]:
     with Session(engine) as session:
-        if tags:
-            tags = session.query(Tag).filter(Tag.tag.in_(tags)).all()
-            return session.query(Quote).filter_by(user_id=user_id, tags=tags).all()
+        if tag_name_list:
+            tags = session.query(Tag).filter(Tag.name.in_(tag_name_list)).all()
+            quotes = session.query(Quote).filter(Quote.user_id == user_id)
+            return [quote for quote in quotes if list(quote.tag).sort() == tags.sort()]
 
         return list()
 

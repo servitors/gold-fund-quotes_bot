@@ -3,6 +3,8 @@ from sqlalchemy.orm import relationship
 
 from utils.db_api.base import Base
 
+__all__ = ['User', 'Quote', 'Tag', 'QuoteTag']
+
 
 class User(Base):
 
@@ -10,8 +12,8 @@ class User(Base):
 
     id = Column('id', Integer, primary_key=True)
     name = Column('name', String(255))
-    quote = relationship('Quote', backref="users")
-    tags = relationship('Tag', backref='users')
+    quote = relationship(lambda: Quote, backref="users")
+    tag = relationship(lambda: Tag, backref='users')
 
 
 class Quote(Base):
@@ -21,14 +23,14 @@ class Quote(Base):
     content = Column('content', Text)
     author = Column('author', String(255))
     user_id = Column(Integer, ForeignKey('users.id'))
-    tags = relationship('Tag', secondary='quote_tag', backref='quote')
+    tag = relationship(lambda: Tag, secondary='quote_tag', backref='quote')
 
 
 class Tag(Base):
 
     __tablename__ = 'tag'
     id = Column('id', Integer, primary_key=True)
-    tag = Column('tag', String(30))
+    name = Column('name', String(30))
     user_id = Column(Integer, ForeignKey('users.id'))
 
 
