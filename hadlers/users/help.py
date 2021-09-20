@@ -7,9 +7,9 @@ from loader import dp
 @dp.message_handler(CommandHelp())
 async def get_help(message: types.Message):
     await message.answer(
-        '/start - Запутсить бота'
-        '/help - Получить справку'
-        '/add_quote - Добавить цитату'
+        '/start - Запутсить бота\n'
+        '/help - Получить справку\n'
+        '/add_quote - Добавить цитату\n'
         '/quick_add_quote - Доавить цитату быстрее\n'
         '(Автор помечается знаком @, теги - #)'
         )
