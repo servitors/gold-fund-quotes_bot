@@ -1,5 +1,5 @@
 def message_destructor(message: str) -> dict:
-    meta = {'content': '', 'author': '', 'tags': []}
+    meta = {'content': '', 'author': '', 'tag': []}
     for i in message.split():
         if i.startswith('#'):
             meta['tag'].append(i)
