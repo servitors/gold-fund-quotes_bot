@@ -15,7 +15,7 @@ class LimitQuotesMiddleware(BaseMiddleware):
         handler = current_handler.get() or (lambda x: x)
         # print(getattr(handler, 'label', None))
         print(count_quote(message.from_user.id))
-        if getattr(handler, 'label', None) and count_quote(message.from_user.id) >= 2:
+        if getattr(handler, 'label', None) and count_quote(message.from_user.id) >= 250:
             await message.answer('<b>У вас закончилось место!</b>\n'
                                  'Купите дополнительные слоты или освободите старые',
                                  parse_mode=ParseMode.HTML)
