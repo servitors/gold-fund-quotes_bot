@@ -66,3 +66,8 @@ def delete_quote(quote_id: int) -> None:
 def delete_tag(tag_id: int) -> None:
     with Session(engine) as session:
         session.query(Tag).filter_by(id=tag_id).delete()
+
+
+def count_quote(user_id):
+    with Session(engine) as session:
+        return session.query(Quote).filter_by(user_id=user_id).count()

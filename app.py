@@ -2,6 +2,7 @@ from aiogram.utils import executor
 
 from utils import db_api, set_default_commands
 from hadlers import dp
+import middlewares
 
 
 async def on_startup(dispatcher):

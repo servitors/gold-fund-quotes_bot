@@ -8,12 +8,20 @@ from utils.db_api import add_quote_in_db, Tag
 from utils.misc.message_worker import *
 
 
+def quote_limit():
+    def decorator(func):
+        setattr(func, 'label', True)
+        return func
+    return decorator
+
+
 @dp.message_handler(Command('skip'), state=OrderQuote)
 async def skip_step(message: types.Message):
     await OrderQuote.next()
 
 
 @dp.message_handler(Command('add_quote'))
+@quote_limit()
 async def add_quote_command(message: types.Message):
     await OrderQuote.waiting_for_quote_content.set()
     await message.answer('Введите цитату')
@@ -42,6 +50,7 @@ async def tags_quote(message: types.Message, state: FSMContext):
     await message.answer('Готово')
 
 
+@quote_limit()
 @dp.message_handler(Command('quick_add_quote'))
 async def quick_add_quote(message: types.Message):
     data = message_destructor(message.text)
