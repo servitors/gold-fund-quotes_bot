@@ -1,3 +1,4 @@
-aiogram
+aiogram~=2.14.3
 psycopg2
-sqlalchemy
+sqlalchemy~=1.4.25
+python-dotenv~=0.19.0

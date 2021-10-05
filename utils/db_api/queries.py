@@ -44,8 +44,8 @@ def get_quotes_by_tags(user_id: int, tags: list[str]) -> list[Union[None, Quote]
         if tags:
             quotes = session.query(Quote).filter(Quote.user_id == user_id)
             return [quote for quote in quotes if sorted([tag.name for tag in quote.tag]) == sorted(tags)]
-
-        return list()
+        else:
+            return [quote for quote in session.query(Quote)]
 
 
 def get_user_tags(user_id: int) -> list[Union[None, Quote]]:
