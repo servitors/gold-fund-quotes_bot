@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
@@ -16,12 +18,18 @@ def quote_limit():
     def decorator(func):
         setattr(func, 'label', True)
         return func
+
     return decorator
 
 
 async def get_step_by_state(state: FSMContext) -> str:
-    steps = ('Введите цитату', 'Укажите автора', 'Добавьте теги', 'Готово')
-    return dict(zip(OrderQuote.states_names, steps))[await state.get_state()]
+    return get_add_quote_steps()[await state.get_state()]
+
+
+@lru_cache
+def get_add_quote_steps():
+    step_names = ('Введите цитату', 'Укажите автора', 'Добавьте теги', 'Готово')
+    return dict(zip(OrderQuote.states_names, step_names))
 
 
 @dp.message_handler(Command('skip'), state=OPTIONAL_FIELDS)
@@ -69,6 +77,7 @@ async def finish_add_quote(query: types.CallbackQuery, state: FSMContext):
         await query.message.answer(await get_step_by_state(state))
     else:
         await query.message.answer('Отменено')
+    await query.message.delete()
     await state.finish()
     await query.answer()
 
