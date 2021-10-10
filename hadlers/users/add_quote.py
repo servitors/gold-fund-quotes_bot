@@ -2,7 +2,7 @@ from functools import lru_cache
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Command
+from aiogram.dispatcher.filters import Command, Text
 
 from keyboards.inline.confirm_add_quote import confirm_add_quote_keyboard, confirm_add_quote_cb
 from loader import dp
@@ -83,8 +83,11 @@ async def finish_add_quote(query: types.CallbackQuery, state: FSMContext):
 
 
 @quote_limit()
-@dp.message_handler(Command('quick_add_quote'))
+@dp.message_handler(Text(startswith='$$'))
 async def quick_add_quote(message: types.Message):
     data = message_destructor(message.text)
-    add_quote_in_db(message.from_user.id, **data)
-    await message.answer('Готово')
+    if data:
+        add_quote_in_db(message.from_user.id, **data)
+        await message.answer('Готово')
+    else:
+        await message.answer('Сообщение не должно быть пустым!')

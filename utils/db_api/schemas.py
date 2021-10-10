@@ -22,7 +22,8 @@ class Quote(Base):
     id = Column('id', Integer, primary_key=True)
     content = Column('content', Text)
     author = Column('author', String(255))
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column('user_id', Integer, ForeignKey('users.id'))
+    order_in_user = Column('order_in_user', Integer)
     tag = relationship(lambda: Tag, secondary='quote_tag', backref='quote')
 
 

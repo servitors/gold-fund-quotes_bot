@@ -10,5 +10,6 @@ async def set_default_commands(dp):
             types.BotCommand("/quick_add_quote", "Add new quote quickly"),
             types.BotCommand('/cancel', 'Cancel operation'),
             types.BotCommand('/skip', 'Skip one step'),
+            types.BotCommand('/quote_menu', 'Show quote menu'),
         ]
     )
