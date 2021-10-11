@@ -2,15 +2,15 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.callback_data import CallbackData
 
 
-class QuoteMenuKeyboard:
+class TagMenuKeyboard:
 
-    quote_menu_cb = CallbackData('quote', 'id')
-    navigation_buttons_cb = CallbackData('quote_menu', 'page')
+    quote_menu_cb = CallbackData('tag', 'id')
+    navigation_buttons_cb = CallbackData('tag_menu', 'page')
 
-    def __init__(self, quotes, page):
-        self.quotes = quotes
+    def __init__(self, tags, page):
+        self.tags = tags
         self.page = page
-        self.keyboard = InlineKeyboardMarkup(row_width=2)
+        self.keyboard = InlineKeyboardMarkup()
         self.fill_keyboard()
 
     def fill_keyboard(self):
@@ -24,9 +24,9 @@ class QuoteMenuKeyboard:
     def generate_quote_buttons(self) -> list[InlineKeyboardButton]:
         return [
             InlineKeyboardButton(
-                text=quote.content,
-                callback_data=self.quote_menu_cb.new(id=quote.id))
-            for quote in self.quotes
+                text=tag.content,
+                callback_data=self.quote_menu_cb.new(id=tag.id))
+            for tag in self.tags
         ]
 
     def generate_navigation_buttons(self):

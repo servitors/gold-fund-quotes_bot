@@ -5,6 +5,7 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from .base import Base
 from .schemas import *
 from .engine import engine
 
@@ -60,9 +61,16 @@ def get_user_quotes(user_id: int, range_id: range) -> list[Union[None, Quote]]:
         return [quote for quote in session.query(Quote).filter(Quote.user_id == user_id)]
 
 
-def get_user_tags(user_id: int) -> list[Union[None, Quote]]:
+def get_user_tags(user_id: int, range_id: range) -> list[Union[None, Quote]]:
     with Session(engine) as session:
-        return session.query(Tag).filter_by(user_id=user_id).all()
+        if range_id:
+            return [
+                quote for quote in session.query(Quote).filter(
+                    Quote.user_id == user_id,
+                    Quote.order_in_user.in_(range_id)
+                )
+            ]
+        return session.query(Tag).filter_by(user_id=user_id)
 
 
 def update_quote(quote_id: int, **kwargs) -> None:
@@ -71,15 +79,26 @@ def update_quote(quote_id: int, **kwargs) -> None:
 
 
 def delete_quote(quote_id: int) -> None:
-    with Session(engine) as session:
-        session.query(Quote).filter_by(id=quote_id).delete()
+    delete(Quote, quote_id)
 
 
 def delete_tag(tag_id: int) -> None:
-    with Session(engine) as session:
-        session.query(Tag).filter_by(id=tag_id).delete()
+    delete(Tag, tag_id)
 
 
-def count_quote(user_id):
+def delete(table: Base, id: int) -> None:
     with Session(engine) as session:
-        return session.query(Quote).filter_by(user_id=user_id).count()
+        session.query(table).filter_by(id=id).delete()
+
+
+def count_quote(user_id: int) -> int:
+    return count(Quote, user_id)
+
+
+def count_tags(user_id: int) -> int:
+    return count(Tag, user_id)
+
+
+def count(table: Base, user_id) -> int:
+    with Session(engine) as session:
+        return session.query(table).filter_by(user_id=user_id).count()
