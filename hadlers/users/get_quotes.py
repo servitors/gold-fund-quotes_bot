@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Command
 
+from keyboards.inline.pagination import Pagination
 from keyboards.inline.quote_menu import QuoteMenuKeyboard
 from loader import dp
 from utils.db_api import get_quotes_by_tags, get_user_quotes, count_quote
@@ -38,13 +39,11 @@ async def quote_menu(message: types.Message):
 @dp.callback_query_handler(QuoteMenuKeyboard.navigation_buttons_cb.filter())
 async def navigate_quote_menu(query: types.CallbackQuery, callback_data: dict):
     user_id = query.from_user.id
+    elements_on_page = 10
     quantity = count_quote(user_id)
-    quantity_page = quantity // 10 + int(bool(quantity % 10))
-    if quantity_page > 1:
-        page = int(callback_data['page']) % quantity_page
-        first_element = page * 10
-        last_element = min(first_element + 10, quantity)
-        quotes = get_user_quotes(user_id, range(first_element, last_element))
-        menu = QuoteMenuKeyboard(quotes, page=page)
+    if elements_on_page < quantity:
+        pagination = Pagination(quantity, int(callback_data['page']), elements_on_page)
+        quotes = get_user_quotes(user_id, pagination.range_elements)
+        menu = QuoteMenuKeyboard(quotes, pagination.page)
         await query.message.edit_reply_markup(reply_markup=menu.keyboard)
     await query.answer()

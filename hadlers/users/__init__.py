@@ -3,6 +3,7 @@ from .help import dp
 from .common import dp
 from .add_quote import dp
 from .get_quotes import dp
+from .get_tags import dp
 
 __all__ = ['dp']
 
