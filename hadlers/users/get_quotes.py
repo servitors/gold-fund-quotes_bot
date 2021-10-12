@@ -1,10 +1,10 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Command
 
-from keyboards.inline.pagination import Pagination
+from keyboards.inline.pagination import Paginator
 from keyboards.inline.quote_menu import QuoteMenuKeyboard
 from loader import dp
-from utils.db_api import get_quotes_by_tags, get_user_quotes, count_quote
+from utils.db_api import get_quotes_by_tags, count_quote, get_user_quotes_in_range
 from utils.misc.message_worker import message_constructor
 
 
@@ -31,19 +31,20 @@ async def get_quote_in_inline_mode(query: types.InlineQuery):
 @dp.message_handler(Command('quote_menu'))
 async def quote_menu(message: types.Message):
     user_id = message.from_user.id
-    quotes = get_user_quotes(user_id, range(0, min(10, count_quote(user_id))))
-    menu = QuoteMenuKeyboard(quotes, page=0)
-    await message.answer(text='Quote Menu', reply_markup=menu.keyboard)
+    quotes = get_user_quotes_in_range(user_id, range(0, 10))
+    menu = QuoteMenuKeyboard(quotes, page=0, action='select')
+    await message.answer(text='Quote Menu', reply_markup=menu)
 
 
-@dp.callback_query_handler(QuoteMenuKeyboard.navigation_buttons_cb.filter())
+@dp.callback_query_handler(QuoteMenuKeyboard.navigation_buttons_cb.filter(action='navigate'))
 async def navigate_quote_menu(query: types.CallbackQuery, callback_data: dict):
     user_id = query.from_user.id
     elements_on_page = 10
     quantity = count_quote(user_id)
     if elements_on_page < quantity:
-        pagination = Pagination(quantity, int(callback_data['page']), elements_on_page)
-        quotes = get_user_quotes(user_id, pagination.range_elements)
-        menu = QuoteMenuKeyboard(quotes, pagination.page)
-        await query.message.edit_reply_markup(reply_markup=menu.keyboard)
+        paginator = Paginator(quantity, int(callback_data['page']), elements_on_page)
+        quotes = get_user_quotes_in_range(user_id, paginator.range_elements)
+        menu = QuoteMenuKeyboard(quotes, paginator.page, action='select')
+        await query.message.edit_text(text='Quote Menu')
+        await query.message.edit_reply_markup(reply_markup=menu)
     await query.answer()

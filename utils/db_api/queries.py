@@ -31,7 +31,13 @@ def add_quote_in_db(user_id: int, **kwargs) -> None:
 
 def add_tag_in_db(name: str, user_id: int) -> None:
     with Session(engine) as session:
-        session.add(Tag(name=name, user_id=user_id))
+        session.add(Tag(name=name, user_id=user_id, order_in_user=count_tags(user_id)))
+        session.commit()
+
+
+def bind_tag_to_quote(tag_id, quote_id):
+    with Session(engine) as session:
+        session.add(QuoteTag(quote_id=quote_id, tag_id=tag_id))
         session.commit()
 
 
@@ -41,36 +47,46 @@ def get_user_by_id(user_id: int) -> User:
 
 
 def get_quotes_by_tags(user_id: int, tags: list[str]) -> list[Union[None, Quote]]:
-    with Session(engine) as session:
-        quotes = get_user_quotes(user_id)
-        if tags:
-            return [quote for quote in quotes if sorted([tag.name for tag in quote.tag]) == sorted(tags)]
-        else:
-            return quotes
+    quotes = get_user_quotes(user_id)
+    if tags:
+        return [quote for quote in quotes if sorted([tag.name for tag in quote.tag]) == sorted(tags)]
+    else:
+        return quotes
 
 
-def get_user_quotes(user_id: int, range_id: range) -> list[Union[None, Quote]]:
+def get_user_quotes(user_id: int) -> list[Union[None, Quote]]:
     with Session(engine) as session:
-        if range_id:
-            return [
-                quote for quote in session.query(Quote).filter(
-                    Quote.user_id == user_id,
-                    Quote.order_in_user.in_(range_id)
-                )
-            ]
         return [quote for quote in session.query(Quote).filter(Quote.user_id == user_id)]
 
 
-def get_user_tags(user_id: int, range_id: range) -> list[Union[None, Quote]]:
+def get_user_quotes_in_range(user_id: int, quote_range: range) -> list[Union[None, Quote]]:
     with Session(engine) as session:
-        if range_id:
-            return [
-                quote for quote in session.query(Quote).filter(
-                    Quote.user_id == user_id,
-                    Quote.order_in_user.in_(range_id)
-                )
-            ]
+        return [
+            quote for quote in session.query(Quote).filter(
+                Quote.user_id == user_id,
+                Quote.order_in_user.in_(quote_range)
+            )
+        ]
+
+
+def get_quote_by_order_in_user(order_in_user: int) -> Union[Quote, None]:
+    with Session(engine) as session:
+        return session.query(Quote).filter_by(order_in_user=order_in_user).one()
+
+
+def get_user_tags(user_id: int) -> list[Union[None, Quote]]:
+    with Session(engine) as session:
         return session.query(Tag).filter_by(user_id=user_id)
+
+
+def get_user_tags_in_range(user_id: int, tag_range: range):
+    with Session(engine) as session:
+        return [
+            tag for tag in session.query(Tag).filter(
+                Tag.user_id == user_id,
+                Tag.order_in_user.in_(tag_range)
+            )
+        ]
 
 
 def update_quote(quote_id: int, **kwargs) -> None:
@@ -99,6 +115,6 @@ def count_tags(user_id: int) -> int:
     return count(Tag, user_id)
 
 
-def count(table: Base, user_id) -> int:
+def count(table: Base, user_id: int) -> int:
     with Session(engine) as session:
         return session.query(table).filter_by(user_id=user_id).count()

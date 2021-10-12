@@ -7,9 +7,8 @@ from aiogram.dispatcher.filters import Command, Text
 from keyboards.inline.confirm_add_quote import confirm_add_quote_keyboard, confirm_add_quote_cb
 from loader import dp
 from states.order_quote import *
-from utils.db_api import add_quote_in_db, Tag
+from utils.db_api import add_quote_in_db, Tag, count_tags
 from utils.misc.message_worker import *
-
 
 OPTIONAL_FIELDS = (OrderQuote.waiting_for_quote_tags,)
 
@@ -64,7 +63,13 @@ async def author_quote(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=OrderQuote.waiting_for_quote_tags)
 async def tags_quote(message: types.Message, state: FSMContext):
-    await state.update_data(tag=[Tag(name=tag) for tag in message.text.split()])
+    await state.update_data(tag=[
+        Tag(
+            name=tag,
+            user_id=message.from_user.id,
+            order_in_user=count_tags(message.from_user.id))
+        for tag in message.text.split()
+    ])
     await OrderQuote.next()
     await message.answer(text="Ok?", reply_markup=confirm_add_quote_keyboard)
 

@@ -1,7 +1,7 @@
 from math import ceil
 
 
-class Pagination:
+class Paginator:
     def __init__(self, quantity, page, elements_on_page):
         self.__quantity = quantity
         self.__elements_on_page = elements_on_page
@@ -11,5 +11,5 @@ class Pagination:
     @property
     def range_elements(self):
         first_element = self.page * self.__elements_on_page
-        last_element = min(first_element + self.__elements_on_page, self.__quantity)
+        last_element = first_element + self.__elements_on_page
         return range(first_element, last_element)

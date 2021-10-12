@@ -1,23 +1,25 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.callback_data import CallbackData
 
+from keyboards.inline.callback_data import tag_cb
 
-class TagMenuKeyboard:
 
-    quote_menu_cb = CallbackData('tag', 'id')
-    navigation_buttons_cb = CallbackData('tag_menu', 'page')
+class TagMenuKeyboard(InlineKeyboardMarkup):
 
-    def __init__(self, tags, page):
+    navigation_buttons_cb = CallbackData('tag', 'action', 'page')
+
+    def __init__(self, tags, page, action):
+        super(TagMenuKeyboard, self).__init__(row_width=3)
         self.tags = tags
         self.page = page
-        self.keyboard = InlineKeyboardMarkup()
+        self.action = action
         self.fill_keyboard()
 
     def fill_keyboard(self):
-        self.keyboard.add(
+        self.add(
             *self.generate_quote_buttons()
         )
-        self.keyboard.add(
+        self.add(
             *self.generate_navigation_buttons()
         )
 
@@ -25,7 +27,7 @@ class TagMenuKeyboard:
         return [
             InlineKeyboardButton(
                 text=tag.content,
-                callback_data=self.quote_menu_cb.new(id=tag.id))
+                callback_data=tag_cb.new(action=self.action, id=tag.order_in_user))
             for tag in self.tags
         ]
 
@@ -33,9 +35,9 @@ class TagMenuKeyboard:
         return [
             InlineKeyboardButton(
                 text='Previous',
-                callback_data=self.navigation_buttons_cb.new(page=self.page-1)),
+                callback_data=self.navigation_buttons_cb.new(page=self.page-1, action='navigate')),
             InlineKeyboardButton(
                 text='Next',
-                callback_data=self.navigation_buttons_cb.new(page=self.page+1))
+                callback_data=self.navigation_buttons_cb.new(page=self.page+1, action='navigate'))
 
         ]
