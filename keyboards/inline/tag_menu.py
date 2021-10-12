@@ -26,7 +26,7 @@ class TagMenuKeyboard(InlineKeyboardMarkup):
     def generate_quote_buttons(self) -> list[InlineKeyboardButton]:
         return [
             InlineKeyboardButton(
-                text=tag.content,
+                text=tag.name,
                 callback_data=tag_cb.new(action=self.action, id=tag.order_in_user))
             for tag in self.tags
         ]

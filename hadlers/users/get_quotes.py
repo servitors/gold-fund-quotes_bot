@@ -41,10 +41,9 @@ async def navigate_quote_menu(query: types.CallbackQuery, callback_data: dict):
     user_id = query.from_user.id
     elements_on_page = 10
     quantity = count_quote(user_id)
-    if elements_on_page < quantity:
-        paginator = Paginator(quantity, int(callback_data['page']), elements_on_page)
-        quotes = get_user_quotes_in_range(user_id, paginator.range_elements)
-        menu = QuoteMenuKeyboard(quotes, paginator.page, action='select')
-        await query.message.edit_text(text='Quote Menu')
-        await query.message.edit_reply_markup(reply_markup=menu)
+    paginator = Paginator(quantity, int(callback_data['page']), elements_on_page)
+    quotes = get_user_quotes_in_range(user_id, paginator.range_elements)
+    menu = QuoteMenuKeyboard(quotes, paginator.page, action='select')
+    await query.message.edit_text(text='Quote Menu')
+    await query.message.edit_reply_markup(reply_markup=menu)
     await query.answer()
