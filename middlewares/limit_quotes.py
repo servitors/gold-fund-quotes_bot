@@ -11,7 +11,8 @@ class LimitQuotesMiddleware(BaseMiddleware):
     def __init__(self):
         super(LimitQuotesMiddleware, self).__init__()
 
-    async def on_process_message(self, message: types.Message, data: dict):
+    @staticmethod
+    async def on_process_message(message: types.Message):
         handler = current_handler.get() or (lambda x: x)
         if getattr(handler, 'label', None) and count_quote(message.from_user.id) >= 250:
             await message.answer('<b>У вас закончилось место!</b>\n'
