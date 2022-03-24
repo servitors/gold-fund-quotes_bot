@@ -1,7 +1,7 @@
 from aiogram.utils import executor
 
 from utils import db_api, set_default_commands
-from hadlers import dp
+from handlers import dp
 import middlewares
 
 
