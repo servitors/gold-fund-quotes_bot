@@ -7,4 +7,5 @@ from loader import dp
 
 @dp.message_handler(Command('cancel'), state='*')
 async def cancel(message: types.Message, state: FSMContext):
+    await message.answer('Canceled')
     await state.finish()

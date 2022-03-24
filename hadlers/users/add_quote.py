@@ -27,7 +27,7 @@ async def get_step_by_state(state: FSMContext) -> str:
 
 @lru_cache
 def get_add_quote_steps():
-    step_names = ('Введите цитату', 'Укажите автора', 'Добавьте теги', 'Готово')
+    step_names = ('Input quote', 'Input author', 'Input tags', 'Done')
     return dict(zip(OrderQuote.states_names, step_names))
 
 
@@ -44,7 +44,7 @@ async def skip_step(message: types.Message, state: FSMContext):
 @quote_limit()
 async def add_quote_command(message: types.Message):
     await OrderQuote.waiting_for_quote_content.set()
-    await message.answer('Введите цитату')
+    await message.answer('Input message')
 
 
 @dp.message_handler(state=OrderQuote.waiting_for_quote_content)
@@ -81,7 +81,7 @@ async def finish_add_quote(query: types.CallbackQuery, state: FSMContext):
         add_quote_in_db(query.from_user.id, **data)
         await query.message.answer(await get_step_by_state(state))
     else:
-        await query.message.answer('Отменено')
+        await query.message.answer('Canceled')
     await query.message.delete()
     await state.finish()
     await query.answer()
@@ -93,6 +93,6 @@ async def quick_add_quote(message: types.Message):
     data = message_destructor(message.text)
     if data:
         add_quote_in_db(message.from_user.id, **data)
-        await message.answer('Готово')
+        await message.answer('Done')
     else:
-        await message.answer('Сообщение не должно быть пустым!')
+        await message.answer('Message must not be empty')
