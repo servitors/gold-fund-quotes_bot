@@ -1,7 +1,7 @@
 from math import ceil
 
 
-class Paginator:
+class Pagination:
     def __init__(self, quantity, page, elements_on_page):
         self.__quantity = quantity
         self.__elements_on_page = elements_on_page
