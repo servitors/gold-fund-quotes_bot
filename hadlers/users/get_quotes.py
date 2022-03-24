@@ -5,7 +5,7 @@ from keyboards.inline.pagination import Paginator
 from keyboards.inline.quote_menu import QuoteMenuKeyboard
 from loader import dp
 from utils.db_api import get_quotes_by_tags, count_quote, get_user_quotes_in_range
-from utils.misc.message_worker import message_constructor
+from utils.misc.messages import message_constructor
 
 
 @dp.inline_handler()

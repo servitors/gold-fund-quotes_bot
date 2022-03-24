@@ -8,7 +8,7 @@ from keyboards.inline.confirm_add_quote import confirm_add_quote_keyboard, confi
 from loader import dp
 from states.order_quote import *
 from utils.db_api import add_quote_in_db, Tag, count_tags
-from utils.misc.message_worker import *
+from utils.misc.messages import *
 
 OPTIONAL_FIELDS = (OrderQuote.waiting_for_quote_tags,)
 

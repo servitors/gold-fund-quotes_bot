@@ -4,7 +4,7 @@ from keyboards.inline.callback_data import quote_cb
 from keyboards.inline.edit_quote_keyboard import EditQuoteKeyboard
 from loader import dp
 from utils.db_api import get_quote_by_order_in_user
-from utils.misc.message_worker import message_constructor
+from utils.misc.messages import message_constructor
 
 
 @dp.callback_query_handler(quote_cb.filter(action='select'))
