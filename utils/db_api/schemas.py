@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 
 from utils.db_api.base import Base
 
-__all__ = ['User', 'Quote', 'Tag', 'QuoteTag']
+__all__ = ('User', 'Quote', 'Tag', 'QuoteTag')
 
 
 class User(Base):
