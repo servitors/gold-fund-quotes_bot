@@ -6,7 +6,7 @@ import middlewares
 
 
 async def on_startup(dispatcher):
-    db_api.on_startup(dispatcher)
+    db_api.on_startup()
     middlewares.on_startup()
     await set_default_commands(dispatcher)
 

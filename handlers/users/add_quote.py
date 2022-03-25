@@ -40,8 +40,8 @@ async def skip_step(message: types.Message, state: FSMContext):
         await message.answer(await get_step_by_state(state))
 
 
-@dp.message_handler(Command('add_quote'))
 @quote_limit()
+@dp.message_handler(Command('add_quote'))
 async def add_quote_command(message: types.Message):
     await AddQuote.waiting_for_quote_content.set()
     await message.answer('Input message')
