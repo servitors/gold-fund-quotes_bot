@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 
-import data.config as config
+from data.config import config
 
 
 __all__ = ("engine",)
