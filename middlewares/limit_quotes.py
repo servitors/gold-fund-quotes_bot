@@ -10,12 +10,13 @@ class LimitQuotesMiddleware(BaseMiddleware):
 
     def __init__(self):
         super(LimitQuotesMiddleware, self).__init__()
+        self.quote_limit = 250
 
-    @staticmethod
-    async def on_process_message(message: types.Message):
+    async def on_process_message(self, message: types.Message, data: dict):
         handler = current_handler.get() or (lambda x: x)
-        if getattr(handler, 'label', None) and count_quote(message.from_user.id) >= 250:
-            await message.answer('<b>У вас закончилось место!</b>\n'
-                                 'Купите дополнительные слоты или освободите старые',
+        if getattr(handler, 'label', None) and count_quote(message.from_user.id) >= self.quote_limit:
+            await message.answer('<b>You have run out of space.!</b>\n'
+                                 'Buy additional slots or free up old ones',
                                  parse_mode=ParseMode.HTML)
             raise CancelHandler()
+        return data

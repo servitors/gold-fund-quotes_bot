@@ -12,7 +12,7 @@ class ThrottlingMiddleware(BaseMiddleware):
         self.prefix = key_prefix
         super(ThrottlingMiddleware, self).__init__()
 
-    async def on_process_message(self, message: types.Message):
+    async def on_process_message(self, message: types.Message, data: dict):
         handler = current_handler.get()
         dispatcher = Dispatcher.get_current()
         if handler:
@@ -26,9 +26,9 @@ class ThrottlingMiddleware(BaseMiddleware):
         except Throttled as t:
             await self.message_throttled(message, t)
             raise CancelHandler()
+        return data
 
     @staticmethod
     async def message_throttled(message: types.Message, throttled: Throttled):
         if throttled.exceeded_count <= 2:
             await message.reply("Too many requests!")
-
