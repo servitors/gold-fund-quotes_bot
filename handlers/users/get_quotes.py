@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Command
 
-from keyboards.inline.pagination import Paginator
+from keyboards.inline.pagination import Pagination
 from keyboards.inline.quote_menu import QuoteMenuKeyboard
 from loader import dp
 from utils.db_api import get_quotes_by_tags, count_quote, get_user_quotes_in_range

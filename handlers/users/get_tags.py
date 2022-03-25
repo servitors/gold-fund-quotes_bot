@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Command
 
-from keyboards.inline.pagination import Paginator
+from keyboards.inline.pagination import Pagination
 from keyboards.inline.tag_menu import TagMenuKeyboard
 from loader import dp
 from utils.db_api import count_tags, get_user_tags_in_range
