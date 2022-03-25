@@ -1,1 +1,1 @@
-from on_startup import on_startup
+from .on_startup import on_startup
