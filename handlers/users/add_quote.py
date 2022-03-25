@@ -74,7 +74,7 @@ async def tags_quote(message: types.Message, state: FSMContext):
     await message.answer(text="Ok?", reply_markup=confirm_add_quote_keyboard)
 
 
-@dp.callback_query_handler(confirm_add_quote_cb.filter(), state=AddQuote.finish)
+@dp.callback_query_handler(confirm_add_quote_cb.filter(), state=AddQuote.waiting_for_confirmation)
 async def finish_add_quote(query: types.CallbackQuery, state: FSMContext):
     if 'confirm' in query.data:
         data = await state.get_data()
