@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 
-from data.config import config
+from data.config import secrets
 
 
 __all__ = ("engine",)
