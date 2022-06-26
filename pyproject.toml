@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "gold_fund_quotes"
+name = "gold-fund-quotes-bot"
 version = "0.1.0"
 description = ""
-authors = ["altcode <cosmosx1328@gmail.com>"]
+authors = ["altroncode <cosmosx1328@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-aiogram = "^2.20"
+python = "^3.10"
 python-dotenv = "^0.20.0"
+aiogram = "^2.21"
 SQLAlchemy = "^1.4.31"
 environs = "^9.5.0"
 
