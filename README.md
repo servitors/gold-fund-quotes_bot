@@ -1,1 +1,1 @@
-# gold_fund_quotes
+# gold-fund-quotes
