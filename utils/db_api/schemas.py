@@ -19,6 +19,7 @@ class User(Base):
 class Quote(Base):
 
     __tablename__ = 'quote'
+
     id = Column('id', Integer, primary_key=True)
     content = Column('content', Text)
     author = Column('author', String(255))
