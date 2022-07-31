@@ -6,12 +6,12 @@ import aiogram.types
 
 from keyboards.inline import confirm_add_quote
 from utils.db_api import schemas
-from states import add_quote
+from states import quote
 from utils import db_api, messages
 from loader import dp
 
 
-OPTIONAL_FIELDS = (add_quote.AddQuote.waiting_for_quote_tags,)
+OPTIONAL_FIELDS = (quote.AddQuote.waiting_for_quote_tags,)
 
 
 def quote_limit():
