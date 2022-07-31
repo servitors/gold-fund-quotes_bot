@@ -7,7 +7,7 @@ import handlers
 
 async def on_startup(dispatcher):
     db_api.on_startup()
-    middlewares.on_startup()
+    middlewares.on_startup(handlers.dp)
     await set_default_commands.set_default_commands(dispatcher)
 
 if __name__ == '__main__':
