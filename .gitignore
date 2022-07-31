@@ -10,6 +10,12 @@ __pycache__/
 #IDE
 .idea/
 
+#Configuration
+.env
+
+# Developing
+test.py
+
 # Distribution / packaging
 .Python
 build/
@@ -109,7 +115,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/
@@ -140,4 +145,3 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
