@@ -6,9 +6,8 @@ import aiogram.types
 
 from keyboards.inline import confirm_add_quote
 from utils.db_api import schemas
-from utils.misc import messages
 from states import add_quote
-from utils import db_api
+from utils import db_api, messages
 from loader import dp
 
 

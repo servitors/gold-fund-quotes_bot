@@ -2,8 +2,7 @@ import aiogram.types
 
 from keyboards.inline import edit_quote_keyboard
 import keyboards.inline.callback_data
-from utils.misc import messages
-from utils import db_api
+from utils import db_api, messages
 from loader import dp
 
 

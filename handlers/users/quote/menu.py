@@ -3,8 +3,7 @@ import aiogram.types
 
 from keyboards.inline import pagination
 from keyboards.inline import quote_menu
-from utils.misc import messages
-from utils import db_api
+from utils import db_api, messages
 from loader import dp
 
 
