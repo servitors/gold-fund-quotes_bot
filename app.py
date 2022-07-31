@@ -1,6 +1,7 @@
 from aiogram.utils import executor
 
-from utils import db_api, set_default_commands
+from utils import db_api
+from utils.misc import set_default_commands
 import middlewares
 import handlers
 
