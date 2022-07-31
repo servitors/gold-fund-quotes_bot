@@ -21,7 +21,7 @@ async def navigate_tag_menu(query: types.CallbackQuery, callback_data: dict):
     quantity = count_tags(user_id)
     elements_on_page = 9
     if quantity > elements_on_page:
-        pagination = Paginator(quantity, int(callback_data['page']), elements_on_page)
+        pagination = Pagination(quantity, int(callback_data['page']), elements_on_page)
         quotes = get_user_tags_in_range(user_id, pagination.range_elements)
         menu = TagMenuKeyboard(quotes, page=pagination.page, action='select')
         await query.message.edit_reply_markup(reply_markup=menu)
