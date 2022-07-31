@@ -4,10 +4,10 @@ import aiogram.types
 from keyboards.inline import tag_menu
 from utils import db_api
 import keyboards.inline.pagination
-import loader
+from loader import dp
 
 
-@loader.dp.message_handler(filters.Command('tag_menu'))
+@dp.message_handler(filters.Command('tag_menu'))
 async def tag_menu(message: aiogram.types.Message):
     user_id = message.from_user.id
     tags = db_api.get_user_tags_in_range(user_id, range(0, 10))
@@ -15,7 +15,7 @@ async def tag_menu(message: aiogram.types.Message):
     await message.answer(text='Tag Menu', reply_markup=menu)
 
 
-@loader.dp.callback_query_handler(tag_menu.TagMenuKeyboard.navigation_buttons_cb.filter(action='navigate'))
+@dp.callback_query_handler(tag_menu.TagMenuKeyboard.navigation_buttons_cb.filter(action='navigate'))
 async def navigate_tag_menu(query: aiogram.types.CallbackQuery, callback_data: dict):
     user_id = query.from_user.id
     quantity = db_api.count_tags(user_id)

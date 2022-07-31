@@ -5,10 +5,10 @@ from keyboards.inline import pagination
 from keyboards.inline import quote_menu
 from utils.misc import messages
 from utils import db_api
-import loader
+from loader import dp
 
 
-@loader.dp.inline_handler()
+@dp.inline_handler()
 async def get_quote_in_inline_mode(query: aiogram.types.InlineQuery):
     query_offset = int(query.offset) if query.offset else 1
     tags = query.query.split()
@@ -28,7 +28,7 @@ async def get_quote_in_inline_mode(query: aiogram.types.InlineQuery):
     await query.answer(articles, cache_time=60, is_personal=True, next_offset=str(query_offset + 50))
 
 
-@loader.dp.message_handler(filters.Command('quote_menu'))
+@dp.message_handler(filters.Command('quote_menu'))
 async def quote_menu(message: aiogram.types.Message):
     user_id = message.from_user.id
     quotes = db_api.get_user_quotes_in_range(user_id, range(0, 10))
@@ -36,7 +36,7 @@ async def quote_menu(message: aiogram.types.Message):
     await message.answer(text='Quote Menu', reply_markup=menu)
 
 
-@loader.dp.callback_query_handler(quote_menu.QuoteMenuKeyboard.navigation_buttons_cb.filter(action='navigate'))
+@dp.callback_query_handler(quote_menu.QuoteMenuKeyboard.navigation_buttons_cb.filter(action='navigate'))
 async def navigate_quote_menu(query: aiogram.types.CallbackQuery, callback_data: dict):
     user_id = query.from_user.id
     elements_on_page = 10

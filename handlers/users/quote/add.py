@@ -9,7 +9,7 @@ from utils.db_api import schemas
 from utils.misc import messages
 from states import add_quote
 from utils import db_api
-import loader
+from loader import dp
 
 
 OPTIONAL_FIELDS = (add_quote.AddQuote.waiting_for_quote_tags,)
@@ -33,7 +33,7 @@ def get_add_quote_steps():
     return dict(zip(add_quote.AddQuote.states_names, step_names))
 
 
-@loader.dp.message_handler(filters.Command('skip'), state=OPTIONAL_FIELDS)
+@dp.message_handler(filters.Command('skip'), state=OPTIONAL_FIELDS)
 async def skip_step(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await add_quote.AddQuote.next()
     if await state.get_state() == await add_quote.AddQuote.last():
@@ -43,27 +43,27 @@ async def skip_step(message: aiogram.types.Message, state: dispatcher.FSMContext
 
 
 @quote_limit()
-@loader.dp.message_handler(filters.Command('add_quote'))
+@dp.message_handler(filters.Command('add_quote'))
 async def add_quote_command(message: aiogram.types.Message):
     await add_quote.AddQuote.waiting_for_quote_content.set()
     await message.answer('Input message')
 
 
-@loader.dp.message_handler(state=add_quote.AddQuote.waiting_for_quote_content)
+@dp.message_handler(state=add_quote.AddQuote.waiting_for_quote_content)
 async def content_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await state.update_data(content=message.text)
     await add_quote.AddQuote.next()
     await message.answer(await get_step_by_state(state))
 
 
-@loader.dp.message_handler(state=add_quote.AddQuote.waiting_for_quote_author)
+@dp.message_handler(state=add_quote.AddQuote.waiting_for_quote_author)
 async def author_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await state.update_data(author=message.text)
     await add_quote.AddQuote.next()
     await message.answer(await get_step_by_state(state))
 
 
-@loader.dp.message_handler(state=add_quote.AddQuote.waiting_for_quote_tags)
+@dp.message_handler(state=add_quote.AddQuote.waiting_for_quote_tags)
 async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await state.update_data(tag=[
         schemas.Tag(
@@ -76,7 +76,7 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
     await message.answer(text="Ok?", reply_markup=confirm_add_quote.confirm_add_quote_keyboard)
 
 
-@loader.dp.callback_query_handler(confirm_add_quote.confirm_add_quote_cb.filter(),
+@dp.callback_query_handler(confirm_add_quote.confirm_add_quote_cb.filter(),
                                   state=add_quote.AddQuote.waiting_for_confirmation)
 async def finish_add_quote(query: aiogram.types.CallbackQuery, state: dispatcher.FSMContext):
     if 'confirm' in query.data:
@@ -91,7 +91,7 @@ async def finish_add_quote(query: aiogram.types.CallbackQuery, state: dispatcher
 
 
 @quote_limit()
-@loader.dp.message_handler(filters.Text(startswith='$$'))
+@dp.message_handler(filters.Text(startswith='$$'))
 async def quick_add_quote(message: aiogram.types.Message):
     data = messages.message_destructor(message.text)
     if data:

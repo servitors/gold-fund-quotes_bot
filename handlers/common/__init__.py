@@ -1,4 +1,4 @@
-from .cancel import dp
+from .cancel.loader import dp
 
 
 __all__ = ('dp',)
