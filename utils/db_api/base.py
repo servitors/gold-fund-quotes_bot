@@ -1,5 +1,6 @@
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import orm
+
 
 __all__ = ("Base",)
 
-Base = declarative_base()
+Base = orm.declarative_base()

@@ -1,5 +1,5 @@
-from aiogram.utils.callback_data import CallbackData
+from aiogram.utils import callback_data
 
 
-quote_cb = CallbackData('quote', 'action', 'id')
-tag_cb = CallbackData('tag', 'action', 'id')
+quote_cb = callback_data.CallbackData('quote', 'action', 'id')
+tag_cb = callback_data.CallbackData('tag', 'action', 'id')

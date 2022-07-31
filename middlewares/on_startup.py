@@ -1,8 +1,6 @@
-from loader import dp
-from middlewares.limit_quotes import LimitQuotesMiddleware
-from middlewares.throttling import ThrottlingMiddleware
+from middlewares import limit_quotes
+import loader
 
 
 def on_startup():
-    dp.middleware.setup(ThrottlingMiddleware())
-    dp.middleware.setup(LimitQuotesMiddleware())
+    loader.dp.middleware.setup(limit_quotes.LimitQuotesMiddleware())

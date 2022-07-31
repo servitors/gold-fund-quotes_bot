@@ -1,8 +1,8 @@
-from aiogram.dispatcher.filters.state import StatesGroup, State
+from aiogram.dispatcher.filters import state
 
 
-class AddQuote(StatesGroup):
-    waiting_for_quote_content = State()
-    waiting_for_quote_author = State()
-    waiting_for_quote_tags = State()
-    waiting_for_confirmation = State()
+class AddQuote(state.StatesGroup):
+    waiting_for_quote_content = state.State()
+    waiting_for_quote_author = state.State()
+    waiting_for_quote_tags = state.State()
+    waiting_for_confirmation = state.State()

@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from keyboards.inline.callback_data import quote_cb
-from keyboards.inline.quote_menu import QuoteMenuKeyboard
+from keyboards.inline import quote_menu
 
 
 class EditQuoteKeyboard(InlineKeyboardMarkup):
@@ -29,5 +29,8 @@ class EditQuoteKeyboard(InlineKeyboardMarkup):
 
     @property
     def back_button(self):
-        return InlineKeyboardButton(text='Назад', callback_data=QuoteMenuKeyboard.navigation_buttons_cb.new(
-            action='navigate', page=self.page))
+        return InlineKeyboardButton(
+            text='Назад',
+            callback_data=quote_menu.QuoteMenuKeyboard.navigation_buttons_cb.new(
+                action='navigate', page=self.page)
+        )

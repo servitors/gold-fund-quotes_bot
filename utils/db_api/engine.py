@@ -1,9 +1,8 @@
-from sqlalchemy import create_engine
+import sqlalchemy
 
 from config import settings
 
 
 __all__ = ("engine",)
 
-
-engine = create_engine(settings.DATABASE_URI)
+engine = sqlalchemy.create_engine(settings.DATABASE_URI)

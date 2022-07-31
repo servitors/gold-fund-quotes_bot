@@ -1,6 +1,5 @@
-from .engine import engine
-from .base import Base
+from utils.db_api import base, engine
 
 
 def on_startup():
-    Base.metadata.create_all(engine)
+    base.Base.metadata.create_all(engine.engine)
