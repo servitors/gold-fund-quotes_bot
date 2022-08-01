@@ -1,5 +1,11 @@
 from aiogram.utils import callback_data
 
 
-quote_cb = callback_data.CallbackData('quote', 'action', 'id')
-tag_cb = callback_data.CallbackData('tag', 'action', 'id')
+class QuoteCallbackFactory(callback_data.CallbackData):
+    def __init__(self):
+        super().__init__('quote', 'action', 'id')
+
+
+class TagCallbackFactory(callback_data.CallbackData):
+    def __init__(self):
+        super().__init__('tag', 'action', 'id')
