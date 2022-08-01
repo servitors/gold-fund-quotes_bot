@@ -9,3 +9,13 @@ class QuoteCallbackFactory(callback_data.CallbackData):
 class TagCallbackFactory(callback_data.CallbackData):
     def __init__(self):
         super().__init__('tag', 'action', 'id')
+
+
+class QuoteMenuCallbackFactory(callback_data.CallbackData):
+    def __init__(self):
+        super().__init__('quote', 'action', 'id')
+
+
+class TagMenuCallbackFactory(callback_data.CallbackData):
+    def __init__(self):
+        super().__init__('tag', 'action', 'id')
