@@ -1,7 +1,7 @@
 from aiogram.utils import callback_data
 import aiogram
 
-import keyboards.inline.callback_data
+import keyboards.inline.callback_factories
 
 
 class TagMenuKeyboard(aiogram.types.InlineKeyboardMarkup):
