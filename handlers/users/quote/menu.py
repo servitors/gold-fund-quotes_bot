@@ -1,9 +1,8 @@
 from aiogram.dispatcher import filters
 import aiogram.types
 
-from keyboards.inline import pagination
 from keyboards.inline import quote_menu
-from utils import db_api, messages
+from utils import db_api, messages, pagination
 from loader import dp
 
 
