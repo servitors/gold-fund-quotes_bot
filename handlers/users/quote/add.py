@@ -22,35 +22,25 @@ def quote_limit():
     return decorator
 
 
-async def get_step_by_state(state: dispatcher.FSMContext) -> str:
-    return get_add_quote_steps()[await state.get_state()]
-
-
-@functools.lru_cache
-def get_add_quote_steps():
-    step_names = ('Input quote', 'Input author', 'Input tags', 'Done')
-    return dict(zip(quote.AddQuote.states_names, step_names))
-
-
 @quote_limit()
 @dp.message_handler(filters.Command('add_quote'))
 async def add_quote_command(message: aiogram.types.Message):
     await quote.AddQuote.waiting_for_quote_content.set()
-    await message.answer('Input message')
+    await message.answer('Input quote')
 
 
 @dp.message_handler(state=quote.AddQuote.waiting_for_quote_content)
 async def content_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await state.update_data(content=message.text)
     await quote.AddQuote.next()
-    await message.answer(await get_step_by_state(state))
+    await message.answer('Input author')
 
 
 @dp.message_handler(state=quote.AddQuote.waiting_for_quote_author)
 async def author_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await state.update_data(author=message.text)
     await quote.AddQuote.next()
-    await message.answer(await get_step_by_state(state))
+    await message.answer('Input tags')
 
 
 @dp.message_handler(state=quote.AddQuote.waiting_for_quote_tags)
@@ -72,7 +62,7 @@ async def finish_add_quote(query: aiogram.types.CallbackQuery, state: dispatcher
     if 'confirm' in query.data:
         data = await state.get_data()
         db_api.add_quote_in_db(query.from_user.id, **data)
-        await query.message.answer(await get_step_by_state(state))
+        await query.message.answer('Done')
     else:
         await query.message.answer('Canceled')
     await query.message.delete()
