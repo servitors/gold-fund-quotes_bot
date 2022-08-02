@@ -25,3 +25,9 @@ class QuoteTagsButton(aiogram.types.InlineKeyboardButton):
         super().__init__('Теги', callback_data=callback_factory.new(
             action='tags', id=quote_id
         ))
+
+
+class QuoteButton(aiogram.types.InlineKeyboardButton):
+    def __init__(self, text: str, page: int):
+        callback_factory = callback_factories.QuotesCallbackFactory()
+        super().__init__(text, callback_data=callback_factory.new(page=page))
