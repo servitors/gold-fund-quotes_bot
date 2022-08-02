@@ -6,5 +6,5 @@ import responses.help
 
 
 @dp.message_handler(filters.CommandHelp())
-async def get_help(message: types.Message):
+async def help_message(message: types.Message):
     await responses.help.HelpResponse(message)
