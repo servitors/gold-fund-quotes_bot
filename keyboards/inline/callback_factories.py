@@ -16,6 +16,6 @@ class QuotesCallbackFactory(callback_data.CallbackData):
         super().__init__('quote_menu', 'page')
 
 
-class TagMenuCallbackFactory(callback_data.CallbackData):
+class TagsCallbackFactory(callback_data.CallbackData):
     def __init__(self):
         super().__init__('tag_menu', 'page')
