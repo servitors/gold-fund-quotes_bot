@@ -2,7 +2,7 @@ from aiogram.dispatcher import filters
 import aiogram.types
 
 from keyboards.inline import quote_menu
-from utils import db_api, messages, pagination
+from utils import db_api, quote, pagination
 from loader import dp
 
 
