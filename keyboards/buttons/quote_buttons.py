@@ -28,6 +28,6 @@ class QuoteTagsButton(aiogram.types.InlineKeyboardButton):
 
 
 class QuoteButton(aiogram.types.InlineKeyboardButton):
-    def __init__(self, text: str, page: int):
+    def __init__(self, text: str, quote_id: int):
         callback_factory = callback_factories.QuotesCallbackFactory()
-        super().__init__(text, callback_data=callback_factory.new(page=page))
+        super().__init__(text, callback_data=callback_factory.new(quote_id))
