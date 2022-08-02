@@ -11,5 +11,5 @@ def quote_destructor(message: str) -> dict:
         return meta
 
 
-def message_constructor(text: str, author: str) -> str:
+def quote_constructor(text: str, author: str) -> str:
     return text + "\n" + u"\u061C" + author

@@ -16,7 +16,7 @@ async def get_quote_in_inline_mode(query: aiogram.types.InlineQuery):
         title=item.author,
         description=item.content,
         input_message_content=aiogram.types.InputTextMessageContent(
-            message_text=messages.message_constructor(item.content, item.author)
+            message_text=messages.quote_constructor(item.content, item.author)
         )
     ) for n, item in enumerate(quotes)]
 
