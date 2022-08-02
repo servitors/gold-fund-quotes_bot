@@ -17,3 +17,11 @@ class EditQuoteAuthorButton(aiogram.types.InlineKeyboardButton):
         super().__init__('Изменить автора', callback_data=callback_factory.new(
             action='edit_author', id=quote_id
         ))
+
+
+class QuoteTagsButton(aiogram.types.InlineKeyboardButton):
+    def __init__(self, quote_id: int):
+        callback_factory = callback_factories.QuoteMenuCallbackFactory()
+        super().__init__('Теги', callback_data=callback_factory.new(
+            action='tags', id=quote_id
+        ))
