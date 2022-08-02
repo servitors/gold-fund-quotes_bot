@@ -49,22 +49,11 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
             order_in_user=db_api.count_tags(message.from_user.id))
         for tag in message.text.split()
     ])
-    await quote_states.AddQuote.next()
-    await message.answer(text="Ok?", reply_markup=confirm_add_quote.confirm_add_quote_keyboard)
-
-
-@dp.callback_query_handler(confirm_add_quote.confirm_add_quote_cb.filter(),
-                           state=quote_states.AddQuote.waiting_for_confirmation)
-async def finish_add_quote(query: aiogram.types.CallbackQuery, state: dispatcher.FSMContext):
-    if 'confirm' in query.data:
-        data = await state.get_data()
-        db_api.add_quote_in_db(query.from_user.id, **data)
-        await query.message.answer('Done')
-    else:
-        await query.message.answer('Canceled')
-    await query.message.delete()
+    data = await state.get_data()
+    db_api.add_quote_in_db(message.from_user.id, **data)
+    await message.answer('Done')
+    await message.delete()
     await state.finish()
-    await query.answer()
 
 
 @quote_limit()
