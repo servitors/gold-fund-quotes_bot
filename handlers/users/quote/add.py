@@ -7,7 +7,7 @@ import aiogram.types
 from keyboards.inline import confirm_add_quote
 from utils import db_api, messages
 from utils.db_api import schemas
-from states import quote
+from states import quote_states
 from loader import dp
 
 
