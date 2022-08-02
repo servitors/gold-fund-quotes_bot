@@ -1,12 +1,8 @@
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from aiogram.utils import callback_data
-import aiogram.types
 import aiogram
 
 from keyboards.buttons import quote_buttons, navigate_buttons
-import keyboards.inline.callback_data
-from utils.db_api import schemas
 from keyboards.inline import callback_factories
+from utils.db_api import schemas
 
 
 class QuoteMenuKeyboard(aiogram.types.InlineKeyboardMarkup):
