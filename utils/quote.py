@@ -12,4 +12,5 @@ def quote_destructor(message: str) -> dict:
 
 
 def quote_constructor(text: str, author: str) -> str:
-    return text + "\n" + u"\u061C" + author
+    right_to_left_mark = u'\u061C'
+    return f'"{text}"\n{right_to_left_mark}Ⓒ{author}'
