@@ -1,4 +1,4 @@
-def message_destructor(message: str) -> dict:
+def quote_destructor(message: str) -> dict:
     meta = {'content': '', 'author': '', 'tag': []}
     for i in message.split()[1:]:
         if i.startswith('#'):

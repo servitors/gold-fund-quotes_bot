@@ -56,7 +56,7 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
 @quote_limit()
 @dp.message_handler(filters.Text(startswith='$$'))
 async def quick_add_quote(message: aiogram.types.Message):
-    data = messages.message_destructor(message.text)
+    data = messages.quote_destructor(message.text)
     if data:
         db_api.add_quote_in_db(message.from_user.id, **data)
         await message.answer('Done')
