@@ -13,7 +13,7 @@ class TagMenuCallbackFactory(callback_data.CallbackData):
 
 class QuotesCallbackFactory(callback_data.CallbackData):
     def __init__(self):
-        super().__init__('quote_menu', 'page')
+        super().__init__('quotes', 'page')
 
 
 class TagsCallbackFactory(callback_data.CallbackData):
