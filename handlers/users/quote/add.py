@@ -11,9 +11,6 @@ from states import quote
 from loader import dp
 
 
-OPTIONAL_FIELDS = (quote.AddQuote.waiting_for_quote_tags,)
-
-
 def quote_limit():
     def decorator(func):
         setattr(func, 'label', True)
