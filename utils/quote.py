@@ -1,14 +1,14 @@
 def quote_destructor(message: str) -> dict:
-    meta = {'content': '', 'author': '', 'tag': []}
-    for i in message.split()[1:]:
-        if i.startswith('#'):
-            meta['tag'].append(i)
-        elif i.startswith('@'):
-            meta['author'] = i
+    quote_data = {'content': '', 'author': '', 'tags': []}
+    for word in message.split()[1:]:
+        if word.startswith('#'):
+            quote_data['tag'].append(word)
+        elif word.startswith('Ⓒ'):
+            quote_data['author'] = word
         else:
-            meta['content'] += i
+            quote_data['content'] += word
 
-        return meta
+        return quote_data
 
 
 def quote_constructor(text: str, author: str) -> str:
