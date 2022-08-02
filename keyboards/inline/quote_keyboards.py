@@ -3,9 +3,19 @@ from aiogram.utils import callback_data
 import aiogram.types
 import aiogram
 
-from keyboards.inline.callback_data import quote_cb
+from keyboards.buttons import quote_buttons, navigate_buttons
 import keyboards.inline.callback_data
 from utils.db_api import schemas
+
+
+class QuoteMenuKeyboard(aiogram.types.InlineKeyboardMarkup):
+    def __init__(self, quote_id: int):
+        super(QuoteMenuKeyboard, self).__init__(row_width=2)
+        self.quote_id = quote_id
+        self.add(quote_buttons.EditQuoteTextButton(quote_id))
+        self.add(quote_buttons.EditQuoteTextButton(quote_id),
+                 quote_buttons.EditQuoteAuthorButton(quote_id))
+        self.add(quote_buttons.QuoteTagsButton(quote_id))
 
 
 class EditQuoteKeyboard(InlineKeyboardMarkup):
