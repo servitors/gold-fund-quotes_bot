@@ -32,15 +32,6 @@ def get_add_quote_steps():
     return dict(zip(quote.AddQuote.states_names, step_names))
 
 
-@dp.message_handler(filters.Command('skip'), state=OPTIONAL_FIELDS)
-async def skip_step(message: aiogram.types.Message, state: dispatcher.FSMContext):
-    await quote.AddQuote.next()
-    if await state.get_state() == await quote.AddQuote.last():
-        await message.answer(text="Ok?", reply_markup=confirm_add_quote.confirm_add_quote_keyboard)
-    else:
-        await message.answer(await get_step_by_state(state))
-
-
 @quote_limit()
 @dp.message_handler(filters.Command('add_quote'))
 async def add_quote_command(message: aiogram.types.Message):
