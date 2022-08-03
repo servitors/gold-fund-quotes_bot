@@ -4,6 +4,7 @@ import aiogram.types
 from keyboards.inline import quote_menu
 from utils import pagination, db_api
 from loader import dp
+import utils.quote
 
 
 @dp.inline_handler()
@@ -16,7 +17,7 @@ async def get_quote_in_inline_mode(query: aiogram.types.InlineQuery):
         title=item.author,
         description=item.content,
         input_message_content=aiogram.types.InputTextMessageContent(
-            message_text=messages.quote_constructor(item.content, item.author)
+            message_text=utils.quote.quote_constructor(item.content, item.author)
         )
     ) for n, item in enumerate(quotes)]
 
