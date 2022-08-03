@@ -1,45 +1,55 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import orm, sql
+import sqlalchemy
 
-from utils.db_api.base import Base
+from utils.db_api import base
 
 
 __all__ = ('User', 'Quote', 'Tag', 'QuoteTag')
 
 
-class User(Base):
+class BaseModel(base.Base):
+    __abstract__ = True
+
+    id = sqlalchemy.Column(
+        sqlalchemy.Integer, nullable=False, unique=True, primary_key=True, autoincrement=True
+    )
+    created_at = sqlalchemy.Column(sqlalchemy.TIMESTAMP, server_default=sql.func.now())
+    updated_at = sqlalchemy.Column(sqlalchemy.TIMESTAMP, onupdate=sql.func.current_timestamp())
+
+    def __repr__(self):
+        return f"{type(self).__name__}(id={self.id})"
+
+
+class User(base.Base):
 
     __tablename__ = 'users'
 
-    id = Column('id', Integer, primary_key=True)
-    name = Column('name', String(255))
-    quote = relationship(lambda: Quote, backref="users")
-    tag = relationship(lambda: Tag, backref='users')
+    name = sqlalchemy.Column(sqlalchemy.String(255))
+    quote = orm.relationship('Quote', backref="users")
+    tag = orm.relationship('Tag', backref='users')
 
 
-class Quote(Base):
+class Quote(base.Base):
 
     __tablename__ = 'quote'
 
-    id = Column('id', Integer, primary_key=True)
-    content = Column('content', Text)
-    author = Column('author', String(255))
-    user_id = Column('user_id', Integer, ForeignKey('users.id'))
-    order_in_user = Column('order_in_user', Integer)
-    tag = relationship(lambda: Tag, lazy='subquery', secondary='quote_tag', backref='quote')
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'))
+    content = sqlalchemy.Column(sqlalchemy.Text)
+    author = sqlalchemy.Column(sqlalchemy.String(255))
+    order_in_user = sqlalchemy.Column(sqlalchemy.Integer)
+    tag = orm.relationship('Tag', lazy='subquery', secondary='quote_tag', backref='quote')
 
 
-class Tag(Base):
+class Tag(base.Base):
 
     __tablename__ = 'tag'
-    id = Column('id', Integer, primary_key=True)
-    name = Column('name', String(30))
-    user_id = Column(Integer, ForeignKey('users.id'))
-    order_in_user = Column('order_in_user', Integer)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'))
+    name = sqlalchemy.Column(sqlalchemy.String(32))
+    order_in_user = sqlalchemy.Column(sqlalchemy.Integer)
 
 
-class QuoteTag(Base):
+class QuoteTag(base.Base):
     __tablename__ = 'quote_tag'
 
-    quote_id = Column(Integer, ForeignKey('quote.id'), primary_key=True)
-    tag_id = Column(Integer, ForeignKey('tag.id'), primary_key=True)
+    quote_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('quote.id'), primary_key=True)
+    tag_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('tag.id'), primary_key=True)
