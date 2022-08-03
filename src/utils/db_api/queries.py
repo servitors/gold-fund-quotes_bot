@@ -74,16 +74,12 @@ def update_quote(session: orm.Session, quote_id: int, **kwargs) -> None:
     session.query(schemas.Quote).filter_by(id=quote_id).update(kwargs)
 
 
-def delete_quote(quote_id: int) -> None:
-    delete(schemas.Quote, quote_id)
+def delete_quote(session: orm.Session, quote_id: int) -> None:
+    session.query(schemas.Quote).filter_by(id=quote_id).delete()
 
 
-def delete_tag(tag_id: int) -> None:
-    delete(schemas.Tag, tag_id)
-
-
-def delete(session: orm.Session, table: base.Base, id: int) -> None:
-    session.query(table).filter_by(id=id).delete()
+def delete_tag(session: orm.Session, tag_id: int) -> None:
+    session.query(schemas.Tag).filter_by(id=tag_id).delete()
 
 
 def count_user_quotes(session: orm.Session, user_id: int) -> int:
