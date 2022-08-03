@@ -7,8 +7,8 @@ from utils.db_api import schemas
 from utils.db_api import base
 
 
-def add_user_in_db(session: orm.Session, id: int, name: str) -> None:
-    statement = postgresql.insert(schemas.User).values(id=id, name=name)
+def add_user_in_db(session: orm.Session, telegram_id: int, name: str) -> None:
+    statement = postgresql.insert(schemas.User).values(id=telegram_id, name=name)
     statement = statement.on_conflict_do_nothing(index_elements=[schemas.User.id])
     session.execute(statement)
 
