@@ -21,7 +21,7 @@ def add_tag_in_db(session: orm.Session, name: str, user_id: int) -> None:
     session.add(schemas.Tag(name=name, user_id=user_id, order_in_user=count_tags(user_id)))
 
 
-def bind_tag_to_quote(session: orm.Session, tag_id, quote_id):
+def bind_tag_to_quote(session: orm.Session, tag_id: int, quote_id: int):
     session.add(schemas.QuoteTag(quote_id=quote_id, tag_id=tag_id))
 
 
