@@ -91,7 +91,7 @@ def count_user_quotes(session: orm.Session, user_id: int) -> int:
 
 
 def count_user_tags(session: orm.Session, user_id: int) -> int:
-    return count(session, schemas.Tag, user_id)
+    return session.query(schemas.Tag).filter_by(user_id=user_id).count()
 
 
 def count(session: orm.Session, table: base.Base, user_id: int) -> int:
