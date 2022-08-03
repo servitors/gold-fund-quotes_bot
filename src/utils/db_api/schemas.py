@@ -26,8 +26,8 @@ class User(BaseModel):
 
     telegram_id = sqlalchemy.Column(sqlalchemy.BigInteger)
     name = sqlalchemy.Column(sqlalchemy.String(255))
-    quote = orm.relationship('Quote', backref="users")
-    tag = orm.relationship('Tag', backref='users')
+    quotes = orm.relationship('Quote', backref="users")
+    tags = orm.relationship('Tag', backref='users')
 
 
 class Quote(BaseModel):
@@ -38,7 +38,7 @@ class Quote(BaseModel):
     content = sqlalchemy.Column(sqlalchemy.Text)
     author = sqlalchemy.Column(sqlalchemy.String(255))
     order_in_user = sqlalchemy.Column(sqlalchemy.Integer)
-    tag = orm.relationship('Tag', lazy='subquery', secondary='quote_tag', backref='quote')
+    tags = orm.relationship('Tag', lazy='subquery', secondary='quote_tag', backref='quote')
 
 
 class Tag(BaseModel):
