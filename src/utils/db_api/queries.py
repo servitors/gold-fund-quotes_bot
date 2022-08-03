@@ -86,7 +86,7 @@ def delete(session: orm.Session, table: base.Base, id: int) -> None:
     session.query(table).filter_by(id=id).delete()
 
 
-def count_quote(session: orm.Session, user_id: int) -> int:
+def count_user_quotes(session: orm.Session, user_id: int) -> int:
     return count(session, schemas.Quote, user_id)
 
 
