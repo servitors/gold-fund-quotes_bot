@@ -1,7 +1,6 @@
 import sqlalchemy
 
-from config import settings
-
+import settings
 
 __all__ = ("engine",)
 
