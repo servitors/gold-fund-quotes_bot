@@ -29,7 +29,7 @@ def get_user_by_id(session: orm.Session, user_id: int) -> schemas.User:
     return session.query(schemas.User).filter_by(id=user_id).one()
 
 
-def get_quotes_by_tags(user_id: int, tags: list[str]) -> list[typing.Union[None, schemas.Quote]]:
+def get_quotes_by_tags(user_id: int, tags: list[str]) -> list[schemas.Quote | None]:
     quotes = get_user_quotes(user_id)
     if tags:
         return [quote for quote in quotes if sorted([tag.name for tag in quote.tag]) == sorted(tags)]
@@ -37,11 +37,11 @@ def get_quotes_by_tags(user_id: int, tags: list[str]) -> list[typing.Union[None,
         return quotes
 
 
-def get_user_quotes(session: orm.Session, user_id: int) -> list[typing.Union[None, schemas.Quote]]:
+def get_user_quotes(session: orm.Session, user_id: int) -> list[schemas.Quote | None]:
     return [quote for quote in session.query(schemas.Quote).filter(schemas.Quote.user_id == user_id)]
 
 
-def get_user_quotes_in_range(session: orm.Session, user_id: int, quote_range: range) -> list[typing.Union[None, schemas.Quote]]:
+def get_user_quotes_in_range(session: orm.Session, user_id: int, quote_range: range) -> list[schemas.Quote | None]:
     return [
         quote for quote in session.query(schemas.Quote).filter(
             schemas.Quote.user_id == user_id,
@@ -50,11 +50,11 @@ def get_user_quotes_in_range(session: orm.Session, user_id: int, quote_range: ra
     ]
 
 
-def get_quote_by_order_in_user(session: orm.Session, order_in_user: int) -> typing.Union[schemas.Quote, None]:
+def get_quote_by_order_in_user(session: orm.Session, order_in_user: int) -> schemas.Quote | None:
     return session.query(schemas.Quote).filter_by(order_in_user=order_in_user).one()
 
 
-def get_user_tags(session: orm.Session, user_id: int) -> list[typing.Union[None, schemas.Quote]]:
+def get_user_tags(session: orm.Session, user_id: int) -> list[schemas.Quote | None]:
     return session.query(schemas.Tag).filter_by(user_id=user_id)
 
 
