@@ -20,7 +20,7 @@ class BaseModel(base.Base):
         return f"{type(self).__name__}(id={self.id})"
 
 
-class User(base.Base):
+class User(BaseModel):
 
     __tablename__ = 'users'
 
@@ -30,7 +30,7 @@ class User(base.Base):
     tag = orm.relationship('Tag', backref='users')
 
 
-class Quote(base.Base):
+class Quote(BaseModel):
 
     __tablename__ = 'quote'
 
@@ -41,7 +41,7 @@ class Quote(base.Base):
     tag = orm.relationship('Tag', lazy='subquery', secondary='quote_tag', backref='quote')
 
 
-class Tag(base.Base):
+class Tag(BaseModel):
 
     __tablename__ = 'tag'
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'))
@@ -49,7 +49,7 @@ class Tag(base.Base):
     order_in_user = sqlalchemy.Column(sqlalchemy.Integer)
 
 
-class QuoteTag(base.Base):
+class QuoteTag(BaseModel):
     __tablename__ = 'quote_tag'
 
     quote_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('quote.id'), primary_key=True)
