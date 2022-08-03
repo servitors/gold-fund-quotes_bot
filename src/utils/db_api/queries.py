@@ -29,8 +29,8 @@ def get_user_by_id(session: orm.Session, user_id: int) -> schemas.User:
     return session.query(schemas.User).filter_by(id=user_id).one()
 
 
-def get_quotes_by_tags(user_id: int, tags: list[str]) -> list[schemas.Quote | None]:
-    quotes = get_user_quotes(user_id)
+def get_quotes_by_tags(session: orm.Session, user_id: int, tags: list[str]) -> list[schemas.Quote | None]:
+    quotes = get_user_quotes(session, user_id)
     if tags:
         return [quote for quote in quotes if sorted([tag.name for tag in quote.tag]) == sorted(tags)]
     else:
