@@ -1,9 +1,9 @@
 from aiogram.dispatcher import filters
 from aiogram import types
 
-from src.responses import start
-from src.utils import db_api
-from src.loader import dp
+from responses import start
+from utils import db_api
+from loader import dp
 
 
 @dp.message_handler(filters.builtin.CommandStart())

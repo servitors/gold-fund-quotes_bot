@@ -2,7 +2,7 @@ from aiogram.dispatcher import filters
 from aiogram import dispatcher
 import aiogram.types
 
-from src.loader import dp
+from loader import dp
 
 
 @dp.message_handler(filters.Command('cancel'), state='*')

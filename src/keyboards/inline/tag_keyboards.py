@@ -1,8 +1,8 @@
 import aiogram
 
-from src.keyboards.buttons import tag_buttons, navigate_buttons
-from src.keyboards.inline import callback_factories
-from src.utils.db_api import schemas
+from keyboards.buttons import tag_buttons, navigate_buttons
+from keyboards.inline import callback_factories
+from utils.db_api import schemas
 
 
 class TagsKeyboard(aiogram.types.InlineKeyboardMarkup):

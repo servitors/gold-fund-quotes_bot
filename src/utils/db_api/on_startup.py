@@ -1,4 +1,4 @@
-from src.utils.db_api import engine, base
+from utils.db_api import engine, base
 
 
 def on_startup():

@@ -1,9 +1,9 @@
 from aiogram.dispatcher import filters
 import aiogram.types
 
-from src.keyboards.inline import quote_menu
-from src.utils import pagination, db_api
-from src.loader import dp
+from keyboards.inline import quote_menu
+from utils import pagination, db_api
+from loader import dp
 
 
 @dp.inline_handler()

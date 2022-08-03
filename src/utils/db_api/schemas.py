@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
-from src.utils.db_api.base import Base
+from utils.db_api.base import Base
+
 
 __all__ = ('User', 'Quote', 'Tag', 'QuoteTag')
 

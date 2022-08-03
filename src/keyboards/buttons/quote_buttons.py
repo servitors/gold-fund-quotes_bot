@@ -1,6 +1,6 @@
 import aiogram.types
 
-from src.keyboards.inline import callback_factories
+from keyboards.inline import callback_factories
 
 
 class EditQuoteTextButton(aiogram.types.InlineKeyboardButton):

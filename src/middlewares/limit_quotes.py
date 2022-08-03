@@ -2,7 +2,7 @@ from aiogram.dispatcher import middlewares
 from aiogram import dispatcher
 import aiogram
 
-from src.utils import db_api
+from utils import db_api
 
 
 class LimitQuotesMiddleware(middlewares.BaseMiddleware):

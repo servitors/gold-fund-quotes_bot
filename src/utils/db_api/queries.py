@@ -4,8 +4,8 @@ from sqlalchemy.dialects import postgresql
 from sqlalchemy import orm
 import sqlalchemy.exc
 
-from src.utils.db_api import schemas
-from src.utils.db_api import engine, base
+from utils.db_api import schemas
+from utils.db_api import engine, base
 
 
 def add_user_in_db(id: int, name: str) -> bool:

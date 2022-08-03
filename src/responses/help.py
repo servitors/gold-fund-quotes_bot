@@ -1,6 +1,6 @@
 import aiogram.types
 
-from src.responses import base
+from responses import base
 
 
 class HelpResponse(base.BaseResponse):

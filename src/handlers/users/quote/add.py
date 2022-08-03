@@ -2,10 +2,10 @@ from aiogram.dispatcher import filters
 from aiogram import dispatcher
 import aiogram.types
 
-from src.utils import db_api
-from src.utils.db_api import schemas
-from src.states import quote_states
-from src.loader import dp
+from utils import db_api
+from utils.db_api import schemas
+from states import quote_states
+from loader import dp
 
 
 def quote_limit():

@@ -1,8 +1,8 @@
 import aiogram.types
 
-from src.keyboards.inline import edit_quote_keyboard
-from src.utils import db_api
-from src.loader import dp
+from keyboards.inline import edit_quote_keyboard
+from utils import db_api
+from loader import dp
 
 
 @dp.callback_query_handler(keyboards.inline.callback_data.quote_cb.filter(action='select'))
