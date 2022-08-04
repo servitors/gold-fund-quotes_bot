@@ -38,7 +38,7 @@ class Quote(BaseModel):
     content = sqlalchemy.Column(sqlalchemy.Text)
     author = sqlalchemy.Column(sqlalchemy.String(255))
     order_in_user = sqlalchemy.Column(sqlalchemy.Integer)
-    tags = orm.relationship('Tag', lazy='subquery', secondary='quote_tag', backref='quote')
+    tags = orm.relationship('Tag', secondary='quote_tag', backref='quote')
 
 
 class Tag(BaseModel):
