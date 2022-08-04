@@ -1,14 +1,13 @@
-def quote_destructor(message: str) -> dict:
-    quote_data = {'content': '', 'author': '', 'tags': []}
+def quote_destructor(message: str) -> tuple:
+    quote, author, tags = '', '', []
     for word in message.split()[1:]:
         if word.startswith('#'):
-            quote_data['tag'].append(word)
+            tags.append(word)
         elif word.startswith('Ⓒ'):
-            quote_data['author'] = word
+            author = word
         else:
-            quote_data['content'] += word
-
-        return quote_data
+            quote += word
+        return quote, author, tags
 
 
 def quote_constructor(text: str, author: str) -> str:
