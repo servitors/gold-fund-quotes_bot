@@ -44,8 +44,7 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
     await state.update_data(tag=[
         schemas.Tag(
             name=tag,
-            user_id=message.from_user.id,
-            order_in_user=db_api.count_tags(message.from_user.id))
+            user_id=message.from_user.id)
         for tag in message.text.split()
     ])
     data = await state.get_data()
@@ -58,6 +57,6 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
 @quote_limit()
 @dp.message_handler(is_quote.QuoteFilter())
 async def quick_add_quote(message: aiogram.types.Message):
-    data = utils.quote.quote_destructor(message.text)
-    db_api.add_quote_in_db(message.from_user.id, **data)
+    quote, author, tags = utils.quote.quote_destructor(message.text)
+    db_api.add_quote_in_db(message.from_user.id, quote=quote, auhtor=author, tags=tags)
     await message.answer('Done')
