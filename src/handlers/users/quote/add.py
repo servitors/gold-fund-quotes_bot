@@ -22,21 +22,21 @@ def quote_limit():
 @dp.message_handler(filters.Command('add_quote'))
 async def add_quote_command(message: aiogram.types.Message):
     await quote_states.AddQuote.waiting_for_quote_content.set()
-    await message.answer('Input quote')
+    await message.answer('Enter quote')
 
 
 @dp.message_handler(state=quote_states.AddQuote.waiting_for_quote_content)
 async def content_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await state.update_data(content=message.text)
     await quote_states.AddQuote.next()
-    await message.answer('Input author')
+    await message.answer('Enter author')
 
 
 @dp.message_handler(state=quote_states.AddQuote.waiting_for_quote_author)
 async def author_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await state.update_data(author=message.text)
     await quote_states.AddQuote.next()
-    await message.answer('Input tags')
+    await message.answer('Enter tags')
 
 
 @dp.message_handler(state=quote_states.AddQuote.waiting_for_quote_tags)
