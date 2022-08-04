@@ -5,6 +5,7 @@ import aiogram.types
 from utils import db_api
 from utils.db_api import schemas
 from states import quote_states
+from filters import is_quote
 from loader import dp
 import utils.quote
 
@@ -55,7 +56,7 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
 
 
 @quote_limit()
-@dp.message_handler(filters.Text(startswith='$$'))
+@dp.message_handler(is_quote.QuoteFilter())
 async def quick_add_quote(message: aiogram.types.Message):
     data = utils.quote.quote_destructor(message.text)
     if data:
