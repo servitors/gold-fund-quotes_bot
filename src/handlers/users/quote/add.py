@@ -59,8 +59,5 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
 @dp.message_handler(is_quote.QuoteFilter())
 async def quick_add_quote(message: aiogram.types.Message):
     data = utils.quote.quote_destructor(message.text)
-    if data:
-        db_api.add_quote_in_db(message.from_user.id, **data)
-        await message.answer('Done')
-    else:
-        await message.answer('Message must not be empty')
+    db_api.add_quote_in_db(message.from_user.id, **data)
+    await message.answer('Done')
