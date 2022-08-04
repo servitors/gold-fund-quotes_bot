@@ -50,10 +50,6 @@ def get_user_quotes_in_range(session: orm.Session, user_id: int, quote_range: ra
     ]
 
 
-def get_quote_by_order_in_user(session: orm.Session, order_in_user: int) -> schemas.Quote | None:
-    return session.query(schemas.Quote).filter_by(order_in_user=order_in_user).one()
-
-
 def get_user_tags(session: orm.Session, user_id: int) -> list[schemas.Quote | None]:
     return session.query(schemas.Tag).filter_by(user_id=user_id)
 
