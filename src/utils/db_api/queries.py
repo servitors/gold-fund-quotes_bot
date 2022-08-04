@@ -1,13 +1,8 @@
-import contextlib
-import typing
-
-import sqlalchemy
-import sqlalchemy.exc
-from sqlalchemy.dialects import postgresql
 from sqlalchemy import orm
+import sqlalchemy.exc
+import sqlalchemy
 
 from utils.db_api import schemas
-from utils.db_api import base
 
 
 def add_user_in_db(session: orm.Session, telegram_id: int, name: str) -> None:
