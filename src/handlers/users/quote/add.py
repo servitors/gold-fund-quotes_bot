@@ -49,7 +49,7 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
     ])
     data = await state.get_data()
     db_api.add_quote_in_db(message.from_user.id, **data)
-    await message.answer('Done')
+    await message.answer('✅ Success!')
     await message.delete()
     await state.finish()
 
@@ -59,4 +59,4 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
 async def quick_add_quote(message: aiogram.types.Message):
     quote, author, tags = utils.quote.quote_destructor(message.text)
     db_api.add_quote_in_db(message.from_user.id, quote=quote, auhtor=author, tags=tags)
-    await message.answer('Done')
+    await message.answer('✅ Success!')
