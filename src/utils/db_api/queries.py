@@ -10,15 +10,11 @@ def add_user_in_db(session: orm.Session, telegram_id: int, name: str) -> None:
 
 
 def add_quote_in_db(session: orm.Session, user_id: int, **kwargs) -> None:
-    session.add(schemas.Quote(
-        user_id=user_id, order_in_user=count_user_quotes(session, user_id), **kwargs)
-    )
+    session.add(schemas.Quote(user_id=user_id, **kwargs))
 
 
 def add_tag_in_db(session: orm.Session, name: str, user_id: int) -> None:
-    session.add(schemas.Tag(
-        name=name, user_id=user_id, order_in_user=count_user_tags(session, user_id))
-    )
+    session.add(schemas.Tag(name=name, user_id=user_id))
 
 
 def bind_tag_to_quote(session: orm.Session, tag_id: int, quote_id: int):
