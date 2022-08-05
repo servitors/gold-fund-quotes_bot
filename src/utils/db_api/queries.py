@@ -5,7 +5,7 @@ import sqlalchemy
 from utils.db_api import schemas
 
 
-def add_user_in_db(session: orm.Session, telegram_id: int, name: str) -> schemas.User:
+def add_user_to_db(session: orm.Session, telegram_id: int, name: str) -> schemas.User:
     user = schemas.User(telegram_id=telegram_id, name=name)
     session.add(user)
     session.flush()
