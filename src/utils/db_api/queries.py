@@ -8,18 +8,24 @@ from utils.db_api import schemas
 def add_user_in_db(session: orm.Session, telegram_id: int, name: str) -> schemas.User:
     user = schemas.User(telegram_id=telegram_id, name=name)
     session.add(user)
+    session.flush()
+    session.expire(user)
     return user
 
 
 def add_quote_in_db(session: orm.Session, user_id: int, **kwargs) -> schemas.Quote:
     quote = schemas.Quote(user_id=user_id, **kwargs)
     session.add(quote)
+    session.flush()
+    session.expire(quote)
     return quote
 
 
 def add_tag_in_db(session: orm.Session, name: str, user_id: int) -> schemas.Tag:
     tag = schemas.Tag(name=name, user_id=user_id)
     session.add(tag)
+    session.flush()
+    session.expire(tag)
     return tag
 
 
