@@ -29,6 +29,17 @@ def add_tag_to_db(session: orm.Session, name: str, user_id: int) -> schemas.Tag:
     return tag
 
 
+def add_tags_to_db(session: orm.Session, names: list[str], user_id: int) -> list[schemas.Tag]:
+    tags = []
+    for name in names:
+        tag = schemas.Tag(name=name, user_id=user_id)
+        tags.append(tag)
+        session.add(tag)
+        session.flush()
+        session.expire(tag)
+    return tags
+
+
 def bind_tag_to_quote(session: orm.Session, tag_id: int, quote_id: int):
     session.add(schemas.QuoteTag(quote_id=quote_id, tag_id=tag_id))
 
