@@ -13,7 +13,7 @@ def add_user_to_db(session: orm.Session, telegram_id: int, name: str) -> schemas
     return user
 
 
-def add_quote_in_db(session: orm.Session, user_id: int, **kwargs) -> schemas.Quote:
+def add_quote_to_db(session: orm.Session, user_id: int, **kwargs) -> schemas.Quote:
     quote = schemas.Quote(user_id=user_id, **kwargs)
     session.add(quote)
     session.flush()
