@@ -4,6 +4,7 @@ import aiogram.types
 
 from utils import db_api
 from utils.db_api import schemas
+import utils.db_api.session
 from states import quote_states
 from filters import is_quote
 from loader import dp
@@ -44,7 +45,8 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
     tags = [schemas.Tag(name=tag, user_id=message.from_user.id)
             for tag in message.text.split()]
     data = await state.get_data()
-    db_api.add_quote_to_db(message.from_user.id, **data)
+    with db_api.session.Session() as session, session.begin():
+        db_api.add_quote_to_db(session, message.from_user.id, **data)
     await message.answer('✅ Success!')
     await message.delete()
     await state.finish()
@@ -54,5 +56,6 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
 @dp.message_handler(is_quote.QuoteFilter())
 async def quick_add_quote(message: aiogram.types.Message):
     quote, author, tags = utils.quote.quote_destructor(message.text)
-    db_api.add_quote_to_db(message.from_user.id, content=quote, auhtor=author, tags=tags)
+    with db_api.session.Session() as session, session.begin():
+        db_api.add_quote_to_db(session, message.from_user.id, content=quote, auhtor=author, tags=tags)
     await message.answer('✅ Success!')
