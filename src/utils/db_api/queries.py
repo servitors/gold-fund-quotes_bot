@@ -5,16 +5,22 @@ import sqlalchemy
 from utils.db_api import schemas
 
 
-def add_user_in_db(session: orm.Session, telegram_id: int, name: str) -> None:
-    session.add(schemas.User(telegram_id=telegram_id, name=name))
+def add_user_in_db(session: orm.Session, telegram_id: int, name: str) -> schemas.User:
+    user = schemas.User(telegram_id=telegram_id, name=name)
+    session.add(user)
+    return user
 
 
-def add_quote_in_db(session: orm.Session, user_id: int, **kwargs) -> None:
-    session.add(schemas.Quote(user_id=user_id, **kwargs))
+def add_quote_in_db(session: orm.Session, user_id: int, **kwargs) -> schemas.Quote:
+    quote = schemas.Quote(user_id=user_id, **kwargs)
+    session.add(quote)
+    return quote
 
 
-def add_tag_in_db(session: orm.Session, name: str, user_id: int) -> None:
-    session.add(schemas.Tag(name=name, user_id=user_id))
+def add_tag_in_db(session: orm.Session, name: str, user_id: int) -> schemas.Tag:
+    tag = schemas.Tag(name=name, user_id=user_id)
+    session.add(tag)
+    return tag
 
 
 def bind_tag_to_quote(session: orm.Session, tag_id: int, quote_id: int):
