@@ -21,7 +21,7 @@ def add_quote_to_db(session: orm.Session, user_id: int, **kwargs) -> schemas.Quo
     return quote
 
 
-def add_tag_in_db(session: orm.Session, name: str, user_id: int) -> schemas.Tag:
+def add_tag_to_db(session: orm.Session, name: str, user_id: int) -> schemas.Tag:
     tag = schemas.Tag(name=name, user_id=user_id)
     session.add(tag)
     session.flush()
