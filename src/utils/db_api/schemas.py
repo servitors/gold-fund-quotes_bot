@@ -24,7 +24,7 @@ class User(BaseModel):
 
     __tablename__ = 'users'
 
-    telegram_id = sqlalchemy.Column(sqlalchemy.BigInteger)
+    telegram_id = sqlalchemy.Column(sqlalchemy.BigInteger, unique=True)
     name = sqlalchemy.Column(sqlalchemy.String(255))
     quotes = orm.relationship('Quote', backref="users")
     tags = orm.relationship('Tag', backref='users')
