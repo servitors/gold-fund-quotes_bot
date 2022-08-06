@@ -3,6 +3,7 @@ import aiogram.types
 from keyboards.inline import quote_keyboards
 from utils.db_api import schemas
 from responses import base
+import utils.quote
 
 
 class QuoteMenuResponse(base.BaseResponse):
@@ -12,4 +13,7 @@ class QuoteMenuResponse(base.BaseResponse):
 
     async def _send_response(self):
         keyboard = quote_keyboards.QuoteMenuKeyboard(quote_id=self.__quote)
-        await self.__callback.message.answer('Quote Menu', reply_markup=keyboard)
+        await self.__callback.message.answer(
+            utils.quote.quote_constructor(
+                self.__quote.content, self.__quote.author),
+            reply_markup=keyboard)
