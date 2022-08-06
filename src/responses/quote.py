@@ -13,7 +13,7 @@ class QuoteMenuResponse(base.BaseResponse):
 
     async def _send_response(self):
         keyboard = quote_keyboards.QuoteMenuKeyboard(quote_id=self.__quote)
-        await self.__callback.message.answer(
+        await self.__callback.message.edit_text(
             utils.quote.quote_constructor(
-                self.__quote.content, self.__quote.author),
-            reply_markup=keyboard)
+                self.__quote.content, self.__quote.author))
+        await self.__callback.message.edit_reply_markup(keyboard)
