@@ -65,7 +65,7 @@ def get_user_quotes(
 
 def get_user_tags(session: orm.Session, user_id: int,
                   page: int = None, page_size: int = None) -> list[schemas.Tag | None]:
-    statement = sqlalchemy.select(schemas.Tag).filter_by(user_id == user_id).order_by('created_at')
+    statement = sqlalchemy.select(schemas.Tag).filter_by(user_id=user_id).order_by('created_at')
     if page and page_size:
         statement = statement.limit(page_size).offset(page * page_size)
     return session.scalars(statement).all()
