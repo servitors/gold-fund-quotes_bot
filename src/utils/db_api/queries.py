@@ -78,6 +78,13 @@ def get_user_tags(session: orm.Session, user_id: int,
     return tags
 
 
+def get_user_quote(session: orm.Session, quote_id: int, user_id) -> schemas.Quote | None:
+    statement = sqlalchemy.select(schemas.Quote).filter_by(id=quote_id, user_id=user_id)
+    quote = session.scalars(statement).first()
+    session.expunge(quote)
+    return quote
+
+
 def update_quote(session: orm.Session, quote_id: int, **kwargs) -> None:
     session.execute(
         sqlalchemy.update(schemas.Quote).
