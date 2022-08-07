@@ -27,14 +27,14 @@ async def add_quote_command(message: aiogram.types.Message):
 
 
 @dp.message_handler(state=quote_states.AddQuote.waiting_for_quote_content)
-async def content_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
+async def quote_content(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await state.update_data(content=message.text)
     await quote_states.AddQuote.next()
     await message.answer('Enter author')
 
 
 @dp.message_handler(state=quote_states.AddQuote.waiting_for_quote_author)
-async def author_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
+async def quote_author(message: aiogram.types.Message, state: dispatcher.FSMContext):
     await state.update_data(author=message.text)
     await quote_states.AddQuote.next()
     await message.answer('Enter tags')
