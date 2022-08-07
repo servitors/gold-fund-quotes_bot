@@ -13,7 +13,7 @@ class LimitQuotesMiddleware(middlewares.BaseMiddleware):
 
     async def on_process_message(self, message: aiogram.types.Message, data: dict):
         handler = dispatcher.handler.current_handler.get() or (lambda x: x)
-        if getattr(handler, 'label', None) and db_api.count_quote(message.from_user.id) >= self.quote_limit:
+        if getattr(handler, 'label', None) and db_api.count_user_quotes(message.from_user.id) >= self.quote_limit:
             await message.answer('<b>You have run out of space.!</b>\n'
                                  'Buy additional slots or free up old ones',
                                  parse_mode=aiogram.types.ParseMode.HTML)
