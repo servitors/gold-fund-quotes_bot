@@ -3,6 +3,7 @@ from aiogram import dispatcher
 import aiogram
 
 from utils import db_api
+import utils.db_api.session
 
 
 class LimitQuotesMiddleware(middlewares.BaseMiddleware):
@@ -13,9 +14,12 @@ class LimitQuotesMiddleware(middlewares.BaseMiddleware):
 
     async def on_process_message(self, message: aiogram.types.Message, data: dict):
         handler = dispatcher.handler.current_handler.get() or (lambda x: x)
-        if getattr(handler, 'label', None) and db_api.count_user_quotes(message.from_user.id) >= self.quote_limit:
-            await message.answer('<b>You have run out of space.!</b>\n'
-                                 'Buy additional slots or free up old ones',
-                                 parse_mode=aiogram.types.ParseMode.HTML)
-            raise dispatcher.handler.CancelHandler()
-        return data
+        if getattr(handler, 'label', None):
+            with db_api.session.Session() as session, session.begin():
+                quotes_quantity = db_api.count_user_quotes(session, message.from_user.id)
+                if quotes_quantity >= self.quote_limit:
+                    await message.answer('<b>You have run out of space.!</b>\n'
+                                         'Buy additional slots or free up old ones',
+                                         parse_mode=aiogram.types.ParseMode.HTML)
+                    raise dispatcher.handler.CancelHandler()
+                return data
