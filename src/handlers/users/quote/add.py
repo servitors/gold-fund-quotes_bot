@@ -48,7 +48,6 @@ async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContex
     with db_api.session.Session() as session, session.begin():
         db_api.add_quote_to_db(session, message.from_user.id, **data)
     await message.answer('✅ Success!')
-    await message.delete()
     await state.finish()
 
 
