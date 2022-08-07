@@ -12,7 +12,7 @@ from loader import dp
 async def tag_menu(message: aiogram.types.Message):
     user_id = message.from_user.id
     with db_api.session.Session() as session, session.begin():
-        tags = db_api.get_user_tags_in_range(session, user_id, range(0, 10))
+        tags = db_api.get_user_tags(session, user_id, page=0, page_size=9)
     menu = tag_menu.TagMenuKeyboard(tags, page=0, action='select')
     await message.answer(text='Tag Menu', reply_markup=menu)
 
@@ -26,7 +26,7 @@ async def navigate_tag_menu(query: aiogram.types.CallbackQuery, callback_data: d
     if quantity > elements_on_page:
         pagination = utils.pagination.Pagination(quantity, int(callback_data['page']), elements_on_page)
         with db_api.session.Session() as session, session.begin():
-            quotes = db_api.get_user_tags_in_range(session, user_id, pagination.range_elements)
+            quotes = db_api.get_user_tags(session, user_id, pagination.range_elements)
         menu = tag_menu.TagMenuKeyboard(quotes, page=pagination.__page, action='select')
         await query.message.edit_reply_markup(reply_markup=menu)
     await query.answer()
