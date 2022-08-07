@@ -56,7 +56,7 @@ def get_user_quotes(
         session: orm.Session, user_id: int,
         page: int = None, page_size: int = None) -> list[schemas.Quote | None]:
 
-    statement = sqlalchemy.select(schemas.Quote).filter_by(user_id == user_id)
+    statement = sqlalchemy.select(schemas.Quote).filter_by(user_id=user_id)
     statement = statement.order_by('created_at')
     if page and page_size:
         statement = statement.limit(page_size).offset(page * page_size)
