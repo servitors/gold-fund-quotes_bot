@@ -29,5 +29,5 @@ class QuoteTagsButton(aiogram.types.InlineKeyboardButton):
 
 class QuoteButton(aiogram.types.InlineKeyboardButton):
     def __init__(self, text: str, quote_id: int):
-        callback_factory = callback_factories.QuotesCallbackFactory()
+        callback_factory = callback_factories.QuoteMenuCallbackFactory()
         super().__init__(text, callback_data=callback_factory.new(quote_id))
