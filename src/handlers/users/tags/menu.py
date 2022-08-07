@@ -22,5 +22,5 @@ async def navigate_tag_menu(query: aiogram.types.CallbackQuery, callback_data: d
     user_id = query.from_user.id
     page = int(callback_data['page'])
     with db_api.session.Session() as session, session.begin():
-        quotes = db_api.get_user_tags(session, user_id, page=page, page_size=9)
-    await responses.tag.TagsResponse(query, quotes, page)
+        tags = db_api.get_user_tags(session, user_id, page=page, page_size=9)
+    await responses.tag.TagsResponse(query, tags, page)
