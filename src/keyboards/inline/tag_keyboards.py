@@ -11,7 +11,7 @@ class TagsKeyboard(aiogram.types.InlineKeyboardMarkup):
         self.__tags = tags
         self.__page = page
         self.add(*[tag_buttons.TagButton(tag.name, tag.id) for tag in self.__tags])
-        callback_factory = callback_factories.QuoteMenuCallbackFactory()
+        callback_factory = callback_factories.TagsCallbackFactory()
         self.row(
             navigate_buttons.PreviousButton(callback_factory=callback_factory, page=self.__page - 1),
             navigate_buttons.NextPreviousButton(callback_factory=callback_factory, page=self.__page + 1)

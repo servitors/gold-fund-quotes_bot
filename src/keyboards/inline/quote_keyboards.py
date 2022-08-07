@@ -21,7 +21,7 @@ class QuotesKeyboard(aiogram.types.InlineKeyboardMarkup):
         self.__quotes = quotes
         self.__page = page
         self.add(*[quote_buttons.QuoteButton(quote.content, quote.id) for quote in self.__quotes])
-        callback_factory = callback_factories.QuoteMenuCallbackFactory()
+        callback_factory = callback_factories.QuotesCallbackFactory()
         self.row(
             navigate_buttons.PreviousButton(callback_factory=callback_factory, page=self.__page - 1),
             navigate_buttons.NextPreviousButton(callback_factory=callback_factory, page=self.__page + 1)
