@@ -45,7 +45,9 @@ def bind_tag_to_quote(session: orm.Session, tag_id: int, quote_id: int):
 
 
 def get_user_by_id(session: orm.Session, user_id: int) -> schemas.User | None:
-    return session.get(schemas.User, user_id)
+    user = session.get(schemas.User, user_id)
+    session.expunge(user)
+    return user
 
 
 def get_quotes_by_tags(session: orm.Session, user_id: int, tags: list[str]) -> list[schemas.Quote | None]:
@@ -60,7 +62,10 @@ def get_user_quotes(
     statement = statement.order_by('created_at')
     if page and page_size:
         statement = statement.limit(page_size).offset(page * page_size)
-    return session.scalars(statement).all()
+
+    quotes = session.scalars(statement).all()
+    session.expunge_all()
+    return quotes
 
 
 def get_user_tags(session: orm.Session, user_id: int,
@@ -68,7 +73,9 @@ def get_user_tags(session: orm.Session, user_id: int,
     statement = sqlalchemy.select(schemas.Tag).filter_by(user_id=user_id).order_by('created_at')
     if page and page_size:
         statement = statement.limit(page_size).offset(page * page_size)
-    return session.scalars(statement).all()
+    tags = session.scalars(statement).all()
+    session.expire_all()
+    return tags
 
 
 def update_quote(session: orm.Session, quote_id: int, **kwargs) -> None:
