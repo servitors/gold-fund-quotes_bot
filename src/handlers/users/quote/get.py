@@ -1,8 +1,7 @@
 from aiogram.dispatcher import filters
 import aiogram.types
 
-from keyboards.inline import quote_menu
-from utils import pagination, db_api
+from utils import db_api
 import utils.db_api.session
 from loader import dp
 import utils.quote
@@ -43,11 +42,8 @@ async def navigate_quote_menu(query: aiogram.types.CallbackQuery, callback_data:
     user_id = query.from_user.id
     page = callback_data['page']
     with db_api.session.Session() as session, session.begin():
-        quantity = db_api.count_quote(session, user_id)
-    paginator = pagination.Pagination(quantity, int(callback_data['page']), elements_on_page)
-    with db_api.session.Session() as session, session.begin():
         quotes = db_api.get_user_quotes(session, user_id, page=page, page_size=10)
-    menu = quote_menu.QuoteMenuKeyboard(quotes, paginator.page, action='select')
+    menu = quote_menu.QuoteMenuKeyboard(quotes, page=page, action='select')
     await query.message.edit_text(text='Quote Menu')
     await query.message.edit_reply_markup(reply_markup=menu)
     await query.answer()
