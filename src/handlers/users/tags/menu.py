@@ -1,7 +1,7 @@
 from aiogram.dispatcher import filters
 import aiogram.types
 
-from keyboards.inline import tag_menu
+from keyboards.inline import callback_factories
 import utils.db_api.session
 from utils import db_api
 import utils.pagination
@@ -17,7 +17,7 @@ async def tag_menu(message: aiogram.types.Message):
     await message.answer(text='Tag Menu', reply_markup=menu)
 
 
-@dp.callback_query_handler(tag_menu.TagMenuKeyboard.navigation_buttons_cb.filter(action='navigate'))
+@dp.callback_query_handler(callback_factories.TagsCallbackFactory().filter())
 async def navigate_tag_menu(query: aiogram.types.CallbackQuery, callback_data: dict):
     user_id = query.from_user.id
     with db_api.session.Session() as session, session.begin():
@@ -27,6 +27,6 @@ async def navigate_tag_menu(query: aiogram.types.CallbackQuery, callback_data: d
         pagination = utils.pagination.Pagination(quantity, int(callback_data['page']), elements_on_page)
         with db_api.session.Session() as session, session.begin():
             quotes = db_api.get_user_tags_in_range(session, user_id, pagination.range_elements)
-        menu = tag_menu.TagMenuKeyboard(quotes, page=pagination.page, action='select')
+        menu = tag_menu.TagMenuKeyboard(quotes, page=pagination.__page, action='select')
         await query.message.edit_reply_markup(reply_markup=menu)
     await query.answer()

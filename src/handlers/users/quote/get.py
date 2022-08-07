@@ -1,6 +1,7 @@
 from aiogram.dispatcher import filters
 import aiogram.types
 
+from keyboards.inline import callback_factories
 import responses.quote
 from utils import db_api
 import utils.db_api.session
@@ -36,7 +37,7 @@ async def quote_menu(message: aiogram.types.Message):
     await responses.quote.QuotesResponse(message, quotes)
 
 
-@dp.callback_query_handler(quote_menu.QuoteMenuKeyboard.navigation_buttons_cb.filter(action='navigate'))
+@dp.callback_query_handler(callback_factories.QuotesCallbackFactory().filter())
 async def navigate_quote_menu(query: aiogram.types.CallbackQuery, callback_data: dict):
     page = callback_data['page']
     with db_api.session.Session() as session, session.begin():
