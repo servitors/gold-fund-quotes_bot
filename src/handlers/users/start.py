@@ -2,6 +2,7 @@ from aiogram.dispatcher import filters
 import aiogram.types
 
 from utils import db_api
+import utils.db_api.session
 import responses.start
 from loader import dp
 
@@ -10,4 +11,5 @@ from loader import dp
 async def start(message: aiogram.types.Message):
     full_name = message.from_user.full_name
     await responses.start.StartResponse(message, full_name)
-    db_api.add_user_to_db(message.from_user.id, full_name)
+    with db_api.session.Session() as session, session.begin():
+        db_api.add_user_to_db(session, message.from_user.id, full_name)
