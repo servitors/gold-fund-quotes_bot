@@ -39,7 +39,7 @@ async def quote_menu(message: aiogram.types.Message):
 
 @dp.callback_query_handler(callback_factories.QuotesCallbackFactory().filter())
 async def navigate_quote_menu(query: aiogram.types.CallbackQuery, callback_data: dict):
-    page = callback_data['page']
+    page = int(callback_data['page'])
     with db_api.session.Session() as session, session.begin():
         quotes = db_api.get_user_quotes(session, query.from_user.id, page=page, page_size=10)
     await responses.quote.QuotesResponse(query, quotes, page)
