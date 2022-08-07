@@ -5,6 +5,7 @@ from keyboards.inline import callback_factories
 import utils.db_api.session
 from utils import db_api
 from loader import dp
+import responses.tag
 
 
 @dp.message_handler(filters.Command('tag_menu'))
@@ -22,6 +23,4 @@ async def navigate_tag_menu(query: aiogram.types.CallbackQuery, callback_data: d
     page = int(callback_data['page'])
     with db_api.session.Session() as session, session.begin():
         quotes = db_api.get_user_tags(session, user_id, page=page, page_size=9)
-    menu = tag_menu.TagMenuKeyboard(quotes, page=page, action='select')
-    await query.message.edit_reply_markup(reply_markup=menu)
-    await query.answer()
+    await responses.tag.TagsResponse(query, quotes, page)
