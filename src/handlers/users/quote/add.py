@@ -41,7 +41,7 @@ async def author_quote(message: aiogram.types.Message, state: dispatcher.FSMCont
 
 
 @dp.message_handler(state=quote_states.AddQuote.waiting_for_quote_tags)
-async def tags_quote(message: aiogram.types.Message, state: dispatcher.FSMContext):
+async def quote_tags(message: aiogram.types.Message, state: dispatcher.FSMContext):
     tags = [schemas.Tag(name=tag, user_id=message.from_user.id)
             for tag in message.text.split()]
     data = await state.get_data()
