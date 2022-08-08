@@ -30,13 +30,10 @@ def add_tag_to_db(session: orm.Session, name: str, user_id: int) -> schemas.Tag:
 
 
 def add_tags_to_db(session: orm.Session, names: list[str], user_id: int) -> list[schemas.Tag]:
-    tags = []
-    for name in names:
-        tag = schemas.Tag(name=name, user_id=user_id)
-        tags.append(tag)
-        session.add(tag)
-        session.flush()
-        session.expire(tag)
+    tags = [schemas.Tag(name=name, user_id=user_id) for name in names]
+    session.add_all(tags)
+    session.flush()
+    session.expire_all()
     return tags
 
 
