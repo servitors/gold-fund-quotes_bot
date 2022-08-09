@@ -48,13 +48,16 @@ def get_user_by_id(session: orm.Session, user_id: int) -> schemas.User | None:
 
 
 def get_quotes_by_tags(session: orm.Session, user_id: int, tags: list[str]) -> list[schemas.Quote | None]:
-    ...
+    statement = sqlalchemy.select(schemas.Quote).join(schemas.Tag).filter(
+        (schemas.Quote.user_id == user_id) &
+        (schemas.Quote.tags.any(schemas.Tag.name.in_(tags)))
+    ).group_by(schemas.Quote).having(sqlalchemy.func.count(schemas.Tag.id) >= len(tags))
+    return session.scalars(statement).all()
 
 
 def get_user_quotes(
         session: orm.Session, user_id: int,
         page: int = None, page_size: int = None) -> list[schemas.Quote | None]:
-
     statement = sqlalchemy.select(schemas.Quote).filter_by(user_id=user_id)
     statement = statement.order_by('created_at')
     if page and page_size:
