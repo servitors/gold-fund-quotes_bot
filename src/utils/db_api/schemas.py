@@ -37,7 +37,7 @@ class Quote(BaseModel):
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'))
     content = sqlalchemy.Column(sqlalchemy.Text)
     author = sqlalchemy.Column(sqlalchemy.String(255))
-    tags = orm.relationship('Tag', secondary='quote_tag', backref='quote')
+    tags = orm.relationship('QuoteTag', back_populates='quote')
 
 
 class Tag(BaseModel):
@@ -45,6 +45,7 @@ class Tag(BaseModel):
     __tablename__ = 'tag'
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'))
     name = sqlalchemy.Column(sqlalchemy.String(32))
+    quotes = orm.relationship('QuoteTag', back_populates='tag')
 
 
 class QuoteTag(BaseModel):
@@ -52,3 +53,5 @@ class QuoteTag(BaseModel):
 
     quote_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('quote.id'), primary_key=True)
     tag_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('tag.id'), primary_key=True)
+    quote = orm.relationship('Quote', back_populates='tags')
+    tag = orm.relationship('Tag', back_populates='quotes')
