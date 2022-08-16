@@ -1,9 +1,9 @@
-from aiogram.dispatcher import middlewares
-from aiogram import dispatcher
 import aiogram
+from aiogram import dispatcher
+from aiogram.dispatcher import middlewares
 
-from services import db_api
 import services.db_api.session
+from services import db_api
 
 
 class LimitQuotesMiddleware(middlewares.BaseMiddleware):

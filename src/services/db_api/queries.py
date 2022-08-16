@@ -1,6 +1,6 @@
-from sqlalchemy import orm
-import sqlalchemy.exc
 import sqlalchemy
+import sqlalchemy.exc
+from sqlalchemy import orm
 
 from services.db_api import schemas
 

@@ -1,9 +1,9 @@
 import aiogram.types
 
-from keyboards.inline import quote_keyboards
-from services.db_api import schemas
-from responses import base
 import utils.quote
+from keyboards.inline import quote_keyboards
+from responses import base
+from services.db_api import schemas
 
 
 class QuoteMenuResponse(base.BaseResponse):

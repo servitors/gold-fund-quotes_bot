@@ -1,5 +1,5 @@
-from aiogram.dispatcher import filters
 import aiogram.types
+from aiogram.dispatcher import filters
 
 
 class QuoteFilter(filters.BoundFilter):

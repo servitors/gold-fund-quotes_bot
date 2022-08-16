@@ -1,6 +1,6 @@
-from aiogram.dispatcher import filters
-from aiogram import dispatcher
 import aiogram.types
+from aiogram import dispatcher
+from aiogram.dispatcher import filters
 
 from loader import dp
 

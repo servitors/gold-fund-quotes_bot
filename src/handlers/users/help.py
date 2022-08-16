@@ -1,8 +1,8 @@
-from aiogram.dispatcher import filters
 import aiogram.types
+from aiogram.dispatcher import filters
 
-from loader import dp
 import responses.help
+from loader import dp
 
 
 @dp.message_handler(filters.CommandHelp())

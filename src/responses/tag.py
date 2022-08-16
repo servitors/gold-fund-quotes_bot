@@ -1,8 +1,8 @@
 import aiogram.types
 
 from keyboards.inline import tag_keyboards
-from services.db_api import schemas
 from responses import base
+from services.db_api import schemas
 
 
 class TagsResponse(base.BaseResponse):

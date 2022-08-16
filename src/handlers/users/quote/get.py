@@ -1,12 +1,12 @@
-from aiogram.dispatcher import filters
 import aiogram.types
+from aiogram.dispatcher import filters
 
-from keyboards.inline import callback_factories
 import responses.quote
-from services import db_api
-import services.db_api.session
-from loader import dp
+import services.db_api
 import utils.quote
+from keyboards.inline import callback_factories
+from loader import dp
+from services import db_api
 
 
 @dp.inline_handler()

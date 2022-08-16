@@ -1,14 +1,14 @@
-from aiogram.dispatcher import filters
-from aiogram import dispatcher
 import aiogram.types
+from aiogram import dispatcher
+from aiogram.dispatcher import filters
 
-from services import db_api
-from services.db_api import schemas
 import services.db_api.session
-from states import quote_states
+import utils.quote
 from filters import is_quote
 from loader import dp
-import utils.quote
+from services import db_api
+from services.db_api import schemas
+from states import quote_states
 
 
 def quote_limit():

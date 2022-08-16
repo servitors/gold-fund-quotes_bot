@@ -1,10 +1,10 @@
 import aiogram.types
 
-from keyboards.inline import callback_factories
-from services import db_api
-import services.db_api.session
-from loader import dp
 import responses.quote
+import services.db_api.session
+from keyboards.inline import callback_factories
+from loader import dp
+from services import db_api
 
 
 @dp.callback_query_handler(callback_factories.QuoteMenuCallbackFactory().filter(action='select'))
