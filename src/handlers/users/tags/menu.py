@@ -2,7 +2,6 @@ import aiogram.types
 from aiogram.dispatcher import filters
 
 import responses.tag
-import services.db_api.session
 from keyboards.inline import callback_factories
 from loader import dp
 from services import db_api
@@ -11,7 +10,7 @@ from services import db_api
 @dp.message_handler(filters.Command('tag_menu'))
 async def tag_menu(message: aiogram.types.Message):
     user_id = message.from_user.id
-    with services.db_api.session.Session() as session, session.begin():
+    with db_api.create_session() as session:
         tags = db_api.get_user_tags(session, user_id, page=0, page_size=9)
     menu = tag_menu.TagMenuKeyboard(tags, page=0, action='select')
     await message.answer(text='Tag Menu', reply_markup=menu)
