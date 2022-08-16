@@ -2,7 +2,7 @@ from sqlalchemy import orm
 import sqlalchemy.exc
 import sqlalchemy
 
-from utils.db_api import schemas
+from services.db_api import schemas
 
 
 def add_user_to_db(session: orm.Session, telegram_id: int, name: str) -> schemas.User:

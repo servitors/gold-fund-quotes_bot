@@ -2,8 +2,8 @@ from aiogram.dispatcher import middlewares
 from aiogram import dispatcher
 import aiogram
 
-from utils import db_api
-import utils.db_api.session
+from services import db_api
+import services.db_api.session
 
 
 class LimitQuotesMiddleware(middlewares.BaseMiddleware):
@@ -15,7 +15,7 @@ class LimitQuotesMiddleware(middlewares.BaseMiddleware):
     async def on_process_message(self, message: aiogram.types.Message, data: dict):
         handler = dispatcher.handler.current_handler.get() or (lambda x: x)
         if getattr(handler, 'label', None):
-            with db_api.session.Session() as session, session.begin():
+            with services.db_api.session.Session() as session, session.begin():
                 quotes_quantity = db_api.count_user_quotes(session, message.from_user.id)
                 if quotes_quantity >= self.quote_limit:
                     await message.answer('<b>You have run out of space.!</b>\n'

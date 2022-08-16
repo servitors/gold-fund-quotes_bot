@@ -1,4 +1,5 @@
-from utils.db_api import engine, base
+from services.db_api import base
+from services.db_api import engine
 
 
 def on_startup():

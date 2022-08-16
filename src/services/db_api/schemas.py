@@ -1,7 +1,7 @@
 from sqlalchemy import orm, sql
 import sqlalchemy
 
-from utils.db_api import base
+from services.db_api import base
 
 
 __all__ = ('User', 'Quote', 'Tag', 'QuoteTag')

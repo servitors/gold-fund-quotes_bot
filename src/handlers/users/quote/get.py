@@ -3,8 +3,8 @@ import aiogram.types
 
 from keyboards.inline import callback_factories
 import responses.quote
-from utils import db_api
-import utils.db_api.session
+from services import db_api
+import services.db_api.session
 from loader import dp
 import utils.quote
 
@@ -13,7 +13,7 @@ import utils.quote
 async def get_quote_in_inline_mode(query: aiogram.types.InlineQuery):
     query_offset = int(query.offset) if query.offset else 1
     tags = query.query.split()
-    with db_api.session.Session() as session, session.begin():
+    with services.db_api.session.Session() as session, session.begin():
         quotes = db_api.get_quotes_by_tags(session, query.from_user.id, tags)
     articles = [aiogram.types.InlineQueryResultArticle(
         id=str(n),
@@ -32,7 +32,7 @@ async def get_quote_in_inline_mode(query: aiogram.types.InlineQuery):
 
 @dp.message_handler(filters.Command('quote_menu'))
 async def quote_menu(message: aiogram.types.Message):
-    with db_api.session.Session() as session, session.begin():
+    with services.db_api.session.Session() as session, session.begin():
         quotes = db_api.get_user_quotes(session, message.from_user.id, page=0, page_size=10)
     await responses.quote.QuotesResponse(message, quotes)
 
@@ -40,6 +40,6 @@ async def quote_menu(message: aiogram.types.Message):
 @dp.callback_query_handler(callback_factories.QuotesCallbackFactory().filter())
 async def quote_menu(query: aiogram.types.CallbackQuery, callback_data: dict):
     page = int(callback_data['page'])
-    with db_api.session.Session() as session, session.begin():
+    with services.db_api.session.Session() as session, session.begin():
         quotes = db_api.get_user_quotes(session, query.from_user.id, page=page, page_size=10)
     await responses.quote.QuotesResponse(query, quotes, page)

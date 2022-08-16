@@ -1,7 +1,7 @@
 import aiogram.types
 
 from keyboards.inline import quote_keyboards
-from utils.db_api import schemas
+from services.db_api import schemas
 from responses import base
 import utils.quote
 

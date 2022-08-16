@@ -1,7 +1,7 @@
 from aiogram.utils import executor
 
 from misc import set_default_commands
-from utils import db_api
+from services import db_api
 import middlewares
 import handlers
 

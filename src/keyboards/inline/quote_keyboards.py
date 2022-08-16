@@ -2,7 +2,7 @@ import aiogram
 
 from keyboards.buttons import quote_buttons, navigate_buttons
 from keyboards.inline import callback_factories
-from utils.db_api import schemas
+from services.db_api import schemas
 
 
 class QuoteMenuKeyboard(aiogram.types.InlineKeyboardMarkup):
